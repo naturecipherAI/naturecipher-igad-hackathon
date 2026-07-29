@@ -1,0 +1,48 @@
+regions:
+  asal_north:
+    name: ASAL North
+    description: Arid and Semi-Arid Lands - Northern Kenya
+    counties:
+    - Turkana
+    - Marsabit
+    - Samburu
+    - Isiolo
+    climate_zone: arid
+    mean_annual_precipitation_mm: 350
+    bbox:
+      north: 4.62
+      south: 0.45
+      east: 41.91
+      west: 34.95
+    geometry_file: asal_north.geojson
+  asal_northeast:
+    name: ASAL Northeast
+    description: Arid Lands - Northeastern Kenya
+    counties:
+    - Wajir
+    - Mandera
+    - Garissa
+    climate_zone: arid
+    mean_annual_precipitation_mm: 300
+    bbox:
+      north: 4.62
+      south: -2.0
+      east: 41.91
+      west: 38.5
+    geometry_file: asal_northeast.geojson
+  asal_eastern:
+    name: ASAL Eastern
+    description: Semi-Arid Lands - Eastern Kenya
+    counties:
+    - Kitui
+    - Makueni
+    - Machakos
+    - Tharaka-Nithi
+    climate_zone: semi-arid
+    mean_annual_precipitation_mm: 650
+    bbox:
+      north: 0.5
+      south: -2.5
+      east: 39.0
+      west: 37.5
+    geometry_file: asal_eastern.geojson

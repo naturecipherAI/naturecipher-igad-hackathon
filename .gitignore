@@ -1,0 +1,36 @@
+# Credentials — never commit
+.env
+credentials.env
+*.env
+
+# Data and models — loaded from S3 at runtime
+data/
+models/
+*.parquet
+*.json.model
+*.grib
+*.nc
+*.tif
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.Python
+venv/
+.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temp
+tmp/
+temp/

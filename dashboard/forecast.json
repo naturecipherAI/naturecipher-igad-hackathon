@@ -1,0 +1,9 @@
+{
+  "meta": {
+    "issued": "placeholder",
+    "data_source": "ECMWF SEAS5 — July 2026 initialization",
+    "label": "experimental",
+    "note": "Replace with output from inference/forecast_runner.py"
+  },
+  "forecasts": []
+}
