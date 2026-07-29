@@ -4,7 +4,7 @@ Data loader — reads processed history and model artifacts from private S3 buck
 Required environment variables (set in .env, never committed):
     AWS_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY
-    AWS_REGION        (default: eu-west-1)
+    AWS_REGION        (default: us-east-1)
     S3_BUCKET         (default: naturecipher-forecast)
 
 Request credentials from: kelvin@naturecipherai.com
@@ -29,7 +29,7 @@ def _s3_client():
         's3',
         aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
         aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
-        region_name=os.getenv('AWS_REGION', 'eu-west-1'),
+        region_name=os.getenv('AWS_REGION', 'us-east-1'),
     )
 
 
