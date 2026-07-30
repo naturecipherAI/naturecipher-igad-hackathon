@@ -1,0 +1,169 @@
+{
+  "schema_version": "2.0",
+  "generated_at": "2026-07-30T13:37:28.584606Z",
+  "run": {
+    "init_date": "2026-07-01",
+    "source": "ECMWF SEAS5 seasonal-monthly-single-levels, originating_centre=ecmwf, system=51",
+    "ensemble_members": 51,
+    "ensemble_reduction": "mean",
+    "forecast_grib": "seas5/seas5_2026_07_forecast.grib",
+    "climatology_grib": "seas5/seas5_1993-2016_07_hindcast_climatology.grib",
+    "code_commit": "1c6f5aa",
+    "drought_model": "block_3",
+    "bridge_model": "cascade_v3",
+    "status": "experimental"
+  },
+  "config": {
+    "threshold": 0.25,
+    "threshold_rationale": "Recall-optimised. In anticipatory action a missed drought costs more than a false alarm."
+  },
+  "regions": [
+    {
+      "id": "asal_north",
+      "name": "ASAL North",
+      "climate_zone": "arid",
+      "counties": ["Turkana", "Marsabit", "Samburu", "Isiolo"],
+      "mean_annual_precipitation_mm": 350,
+      "bbox": { "north": 4.62, "south": 0.45, "east": 41.91, "west": 34.95 },
+      "forecasts": [
+        {
+          "valid_year": 2026,
+          "valid_month": 9,
+          "lead_months": 2,
+          "drought_prob": 0.217,
+          "prob_p10": null,
+          "prob_p90": null,
+          "ensemble_agreement": null,
+          "drought_forecast": 0,
+          "signal": "normal",
+          "margin": -0.033,
+          "drivers": null
+        },
+        {
+          "valid_year": 2026,
+          "valid_month": 10,
+          "lead_months": 3,
+          "drought_prob": 0.262,
+          "prob_p10": null,
+          "prob_p90": null,
+          "ensemble_agreement": null,
+          "drought_forecast": 1,
+          "signal": "drought",
+          "margin": 0.012,
+          "drivers": null
+        },
+        {
+          "valid_year": 2026,
+          "valid_month": 11,
+          "lead_months": 4,
+          "drought_prob": 0.005,
+          "prob_p10": null,
+          "prob_p90": null,
+          "ensemble_agreement": null,
+          "drought_forecast": 0,
+          "signal": "normal",
+          "margin": -0.245,
+          "drivers": null
+        }
+      ]
+    },
+    {
+      "id": "asal_northeast",
+      "name": "ASAL Northeast",
+      "climate_zone": "arid",
+      "counties": ["Wajir", "Mandera", "Garissa"],
+      "mean_annual_precipitation_mm": 300,
+      "bbox": { "north": 4.62, "south": -2.0, "east": 41.91, "west": 38.5 },
+      "forecasts": [
+        {
+          "valid_year": 2026,
+          "valid_month": 9,
+          "lead_months": 2,
+          "drought_prob": 0.002,
+          "prob_p10": null,
+          "prob_p90": null,
+          "ensemble_agreement": null,
+          "drought_forecast": 0,
+          "signal": "normal",
+          "margin": -0.248,
+          "drivers": null
+        },
+        {
+          "valid_year": 2026,
+          "valid_month": 10,
+          "lead_months": 3,
+          "drought_prob": 0.003,
+          "prob_p10": null,
+          "prob_p90": null,
+          "ensemble_agreement": null,
+          "drought_forecast": 0,
+          "signal": "normal",
+          "margin": -0.247,
+          "drivers": null
+        },
+        {
+          "valid_year": 2026,
+          "valid_month": 11,
+          "lead_months": 4,
+          "drought_prob": 0.018,
+          "prob_p10": null,
+          "prob_p90": null,
+          "ensemble_agreement": null,
+          "drought_forecast": 0,
+          "signal": "normal",
+          "margin": -0.232,
+          "drivers": null
+        }
+      ]
+    },
+    {
+      "id": "asal_eastern",
+      "name": "ASAL Eastern",
+      "climate_zone": "semi-arid",
+      "counties": ["Kitui", "Makueni", "Machakos", "Tharaka-Nithi"],
+      "mean_annual_precipitation_mm": 650,
+      "bbox": { "north": 0.5, "south": -2.5, "east": 39.0, "west": 37.5 },
+      "forecasts": [
+        {
+          "valid_year": 2026,
+          "valid_month": 9,
+          "lead_months": 2,
+          "drought_prob": 0.101,
+          "prob_p10": null,
+          "prob_p90": null,
+          "ensemble_agreement": null,
+          "drought_forecast": 0,
+          "signal": "normal",
+          "margin": -0.149,
+          "drivers": null
+        },
+        {
+          "valid_year": 2026,
+          "valid_month": 10,
+          "lead_months": 3,
+          "drought_prob": 0.002,
+          "prob_p10": null,
+          "prob_p90": null,
+          "ensemble_agreement": null,
+          "drought_forecast": 0,
+          "signal": "normal",
+          "margin": -0.248,
+          "drivers": null
+        },
+        {
+          "valid_year": 2026,
+          "valid_month": 11,
+          "lead_months": 4,
+          "drought_prob": 0.022,
+          "prob_p10": null,
+          "prob_p90": null,
+          "ensemble_agreement": null,
+          "drought_forecast": 0,
+          "signal": "normal",
+          "margin": -0.228,
+          "drivers": null
+        }
+      ]
+    }
+  ]
+}

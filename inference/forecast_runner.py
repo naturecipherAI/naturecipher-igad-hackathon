@@ -5,11 +5,16 @@ Loads historical data from S3, runs cascade bridges on SEAS5 forecast input,
 feeds the full 51-feature vector into the XGBoost drought model, and outputs
 monthly drought probabilities per region.
 
-Output: dashboard/forecast.json (consumed by dashboard/index.html)
+Outputs, both consumed by dashboard/index.html:
+    dashboard/forecast.json  regional drought probabilities, drives the decision
+    dashboard/grid.json      gridded conditions field, map context only
 
 Usage:
-    # Full SEAS5 forecast (downloads GRIB from S3)
+    # Full SEAS5 forecast (downloads GRIB from S3), writes both files
     python -m inference.forecast_runner
+
+    # Skip the gridded field
+    python -m inference.forecast_runner --no-grid
 
     # Retrospective mode (uses historical ERA5 data only, no GRIB needed)
     python -m inference.forecast_runner --retrospective --year 2026 --months 1 2 3
@@ -202,6 +207,44 @@ def save_forecast(results: Dict, output_path: str = "dashboard/forecast.json"):
     print(f"\nForecast saved to {output_path}")
 
 
+def run_grid_field() -> Optional[Dict]:
+    """
+    Build the gridded conditions field that backs the dashboard map layer.
+
+    Errors are swallowed on purpose. The drought probabilities are the deliverable and
+    are already computed by the time this runs, so a missing GRIB, an absent cfgrib or
+    an unreadable grid must not discard a completed model run.
+
+    Returns None when the field could not be built.
+    """
+    from inference.seas5_adapter import (
+        FORECAST_GRIB_KEY,
+        grid_to_payload,
+        load_grid_field,
+    )
+
+    try:
+        field = load_grid_field()
+        payload = grid_to_payload(field, FORECAST_GRIB_KEY)
+        cells = sum(len(m["cells"]) for m in payload["months"])
+        res = payload["resolution"]
+        print(f"\nGrid field: {cells} cell-months at "
+              f"{res['lat_step_deg']} x {res['lon_step_deg']} degrees")
+        return payload
+    except Exception as e:
+        logger.warning(f"Gridded field unavailable, continuing without it: {e}")
+        print(f"\nGrid field skipped: {e}")
+        return None
+
+
+def save_grid(payload: Dict, output_path: str = "dashboard/grid.json"):
+    """Save the gridded conditions field as JSON for the dashboard map layer."""
+    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
+    with open(output_path, "w") as f:
+        json.dump(payload, f, indent=2)
+    print(f"Grid field saved to {output_path}")
+
+
 def print_summary(results: Dict, year: int):
     """Print a summary table of forecast results."""
     print(f"\n{'='*55}")
@@ -247,18 +290,30 @@ def main():
                         help="Months to forecast (default: 1 2 3)")
     parser.add_argument("--output", default="dashboard/forecast.json",
                         help="Output JSON path (default: dashboard/forecast.json)")
+    parser.add_argument("--grid-output", default="dashboard/grid.json",
+                        help="Gridded conditions field path (default: dashboard/grid.json)")
+    parser.add_argument("--no-grid", action="store_true",
+                        help="Skip the gridded conditions field")
     args = parser.parse_args()
 
+    grid_payload = None
     if args.retrospective:
         print(f"Running retrospective forecast for {args.year}, months {args.months}")
         results = run_retrospective(args.year, args.months)
     else:
         print("Running SEAS5 seasonal forecast...")
         results = run_seas5_forecast()
+        # Retrospective mode reads historical parquet and never touches a GRIB, so
+        # there is no forecast grid to emit for it.
+        if not args.no_grid:
+            grid_payload = run_grid_field()
 
     if results:
         print_summary(results, args.year)
         save_forecast(results, args.output)
+
+    if grid_payload:
+        save_grid(grid_payload, args.grid_output)
 
 
 if __name__ == "__main__":
