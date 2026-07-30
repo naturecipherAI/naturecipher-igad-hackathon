@@ -1,9 +1,75 @@
 {
-  "meta": {
-    "issued": "placeholder",
-    "data_source": "ECMWF SEAS5 — July 2026 initialization",
-    "label": "experimental",
-    "note": "Replace with output from inference/forecast_runner.py"
-  },
-  "forecasts": []
+  "generated_at": "2026-07-30T13:37:28.584606Z",
+  "threshold": 0.25,
+  "regions": {
+    "asal_north": [
+      {
+        "month": 9,
+        "year": 2026,
+        "drought_prob": 0.217,
+        "drought_forecast": 0,
+        "signal": "normal"
+      },
+      {
+        "month": 10,
+        "year": 2026,
+        "drought_prob": 0.262,
+        "drought_forecast": 1,
+        "signal": "DROUGHT"
+      },
+      {
+        "month": 11,
+        "year": 2026,
+        "drought_prob": 0.005,
+        "drought_forecast": 0,
+        "signal": "normal"
+      }
+    ],
+    "asal_northeast": [
+      {
+        "month": 9,
+        "year": 2026,
+        "drought_prob": 0.002,
+        "drought_forecast": 0,
+        "signal": "normal"
+      },
+      {
+        "month": 10,
+        "year": 2026,
+        "drought_prob": 0.003,
+        "drought_forecast": 0,
+        "signal": "normal"
+      },
+      {
+        "month": 11,
+        "year": 2026,
+        "drought_prob": 0.018,
+        "drought_forecast": 0,
+        "signal": "normal"
+      }
+    ],
+    "asal_eastern": [
+      {
+        "month": 9,
+        "year": 2026,
+        "drought_prob": 0.101,
+        "drought_forecast": 0,
+        "signal": "normal"
+      },
+      {
+        "month": 10,
+        "year": 2026,
+        "drought_prob": 0.002,
+        "drought_forecast": 0,
+        "signal": "normal"
+      },
+      {
+        "month": 11,
+        "year": 2026,
+        "drought_prob": 0.022,
+        "drought_forecast": 0,
+        "signal": "normal"
+      }
+    ]
+  }
 }

@@ -40,7 +40,8 @@ def _bucket():
 def load_historical_parquet(region: str) -> pd.DataFrame:
     """
     Load processed historical time series for a region directly from S3.
-    Never writes to local disk.
+    Concatenates all parquet splits (period1_train, period2_train, etc.)
+    from the processed_v3/{region}/ prefix. Never writes to local disk.
 
     Args:
         region: One of asal_north, asal_northeast, asal_eastern
@@ -51,14 +52,29 @@ def load_historical_parquet(region: str) -> pd.DataFrame:
     if region not in REGIONS:
         raise ValueError(f"Unknown region: {region}. Must be one of {REGIONS}")
 
-    key = f'processed_v3/{region}_processed.parquet'
-    logger.info(f"Loading {key} from S3...")
+    prefix = f'processed_v3/{region}/'
+    logger.info(f"Loading parquets from s3://{_bucket()}/{prefix}...")
 
     s3 = _s3_client()
-    response = s3.get_object(Bucket=_bucket(), Key=key)
-    df = pd.read_parquet(io.BytesIO(response['Body'].read()))
+    resp = s3.list_objects_v2(Bucket=_bucket(), Prefix=prefix)
+    parquet_keys = [
+        obj['Key'] for obj in resp.get('Contents', [])
+        if obj['Key'].endswith('.parquet')
+    ]
 
-    logger.info(f"Loaded {len(df)} rows for {region} ({df.index.min()} to {df.index.max()})")
+    if not parquet_keys:
+        raise FileNotFoundError(f"No parquet files found at s3://{_bucket()}/{prefix}")
+
+    frames = []
+    for key in sorted(parquet_keys):
+        response = s3.get_object(Bucket=_bucket(), Key=key)
+        frames.append(pd.read_parquet(io.BytesIO(response['Body'].read())))
+        logger.info(f"  Loaded {key}")
+
+    df = pd.concat(frames, ignore_index=True)
+    df = df.drop_duplicates(subset=['year', 'month']).sort_values(['year', 'month']).reset_index(drop=True)
+
+    logger.info(f"Loaded {len(df)} rows for {region}")
     return df
 
 
