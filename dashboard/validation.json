@@ -1,0 +1,43 @@
+{
+  "schema_version": "2.0",
+  "updated_at": "2026-07-30T00:00:00Z",
+  "backtest": {
+    "region": "asal_north",
+    "period": { "start": "2021-01", "end": "2024-12" },
+    "n_samples": 48,
+    "base_rate": null,
+    "metrics": {
+      "accuracy": 0.667,
+      "f1": 0.692,
+      "recall": 0.643,
+      "precision": null
+    },
+    "confidence_interval": {
+      "metric": "accuracy",
+      "level": 0.95,
+      "low": 0.534,
+      "high": 0.8
+    },
+    "baseline": {
+      "kind": "majority_class",
+      "computed": false,
+      "metrics": null
+    }
+  },
+  "retrospective": {
+    "period": { "start": "2026-01", "end": "2026-03" },
+    "kind": "hindcast",
+    "input_data": "ERA5 reanalysis, available after the fact",
+    "claim": "Northeast Kenya drought emergency identified",
+    "reference_event": "IPC declaration, March 2026",
+    "caveat": "Retrospective. ERA5 for these months was used after the fact, not an ahead-of-time forecast."
+  },
+  "hindcasts": [],
+  "known_limitations": [
+    "Forward forecasts experimental, mini-hindcast validation only",
+    "Soil moisture uses persistence, SEAS5 provides no soil moisture layers",
+    "Single July 2026 SEAS5 initialization",
+    "Three ASAL regions only",
+    "Ensemble spread discarded, forecasts carry no uncertainty band"
+  ]
+}

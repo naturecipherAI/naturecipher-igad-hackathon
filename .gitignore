@@ -34,3 +34,10 @@ logs/
 # Temp
 tmp/
 temp/
+
+# Raw boundary download, rebuild with scripts/build_counties_geojson.py
+ken_adm1*.geojson
+
+# codegraph analysis artifacts
+CODEGRAPH*.json
+CODEGRAPH*.md
