@@ -41,3 +41,6 @@ ken_adm1*.geojson
 # codegraph analysis artifacts
 CODEGRAPH*.json
 CODEGRAPH*.md
+
+# Local test scaffolding
+build_tmp/

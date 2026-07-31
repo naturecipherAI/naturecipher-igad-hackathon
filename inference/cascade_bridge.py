@@ -151,6 +151,25 @@ def derive_lst_features(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def derive_composite_features(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Derive the features that depend on both VCI and TCI, plus VCI's lags.
+
+    These are listed in forecast_runner.OBSERVATION_COLS and so are stripped from
+    the historical frame, but no bridge produces them. Without this step they
+    reach the classifier as zeros via reindex().fillna(0) -- silently, since a
+    zeroed feature looks the same as a genuinely zero one.
+
+    VHI is the standard FAO/USGS composite: 0.5 * VCI + 0.5 * TCI.
+    """
+    if "vci" in df.columns and "tci" in df.columns:
+        df["vhi"] = 0.5 * df["vci"] + 0.5 * df["tci"]
+    if "vci" in df.columns:
+        for lag in (1, 2):
+            df[f"vci_lag{lag}"] = df["vci"].shift(lag)
+    return df
+
+
 # ---- Inference engine ----
 
 class CascadeBridgeInference:
@@ -251,5 +270,6 @@ class CascadeBridgeInference:
         else:
             df["lst_night_c"] = df["lst_day_c"] - 10.0
         df = derive_lst_features(df)
+        df = derive_composite_features(df)
 
         return df

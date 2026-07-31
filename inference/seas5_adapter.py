@@ -40,8 +40,107 @@ SEAS5_VAR_MAP = {
     "d2m":    ("era5_dewpoint_c", lambda x: x - 273.15),
     "tprate": ("era5_precip_mm",  lambda x: max(x * SECONDS_PER_MONTH * 1000, 0)),
     "erate":  ("era5_et_mm",      lambda x: abs(x) * SECONDS_PER_MONTH * 1000),
-    "mrort":  ("era5_pet_mm",     lambda x: abs(x) * SECONDS_PER_MONTH * 1000),
+    "mrort":  ("era5_runoff_mm",  lambda x: abs(x) * SECONDS_PER_MONTH * 1000),
 }
+
+# Days per month, used by Hargreaves and by the rate-to-total conversions. The
+# flat 30-day SECONDS_PER_MONTH above is retained only where a total is later
+# rescaled by an anomaly ratio, which cancels the error.
+DAYS_IN_MONTH = {1: 31, 2: 28, 3: 31, 4: 30, 5: 31, 6: 30,
+                 7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31}
+
+# Mean monthly extraterrestrial radiation (MJ m-2 day-1) near the equator, which
+# is where all three ASAL clusters sit. Hargreaves needs Ra; at these latitudes it
+# varies little through the year, so a single equatorial profile is adequate and
+# avoids carrying a latitude through the regional (spatially averaged) path.
+RA_EQUATORIAL = {1: 35.2, 2: 36.4, 3: 36.7, 4: 35.5, 5: 33.5, 6: 32.3,
+                 7: 32.7, 8: 34.2, 9: 35.8, 10: 36.0, 11: 35.1, 12: 34.6}
+
+
+def _anchor_on_observed(
+    df: pd.DataFrame,
+    historical_df: pd.DataFrame,
+    ratio_col: str,
+    era5_col: str,
+) -> pd.DataFrame:
+    """
+    Rescale one forecast column so its anomaly sits on the observed climatology.
+
+    Months with no observed counterpart keep their converted SEAS5 value rather
+    than becoming NaN, so a partial history degrades the correction instead of
+    dropping the forecast.
+    """
+    if ratio_col not in df.columns or era5_col not in historical_df.columns:
+        return df
+
+    obs_clim = historical_df.groupby("month")[era5_col].mean()
+    corrected = []
+    for month, ratio, fallback in zip(df["month"], df[ratio_col], df[era5_col]):
+        month = int(month)
+        if month in obs_clim.index:
+            corrected.append(float(obs_clim.loc[month]) * float(ratio))
+        else:
+            corrected.append(fallback)
+
+    return df.assign(**{era5_col: corrected})
+
+
+SPI_WINDOWS = {3: "era5_spi3", 6: "era5_spi6", 12: "era5_spi12"}
+SPI_CLAMP = 3.5
+MONTH_KEY = ["year", "month"]
+
+
+def _precip_timeline(hist: pd.DataFrame, forecast: pd.DataFrame) -> pd.DataFrame:
+    """
+    Observed history followed by the forecast months, as one continuous series.
+
+    An N-month accumulation on an early lead is mostly observed history, so the
+    two have to be concatenated before the rolling sum rather than after.
+    """
+    cols = MONTH_KEY + ["era5_precip_mm"]
+    joined = pd.concat([hist[cols], forecast[cols]], ignore_index=True)
+    joined = joined.drop_duplicates(subset=MONTH_KEY, keep="last")
+    return joined.sort_values(MONTH_KEY).reset_index(drop=True)
+
+
+def _spi_over_window(timeline: pd.DataFrame, window: int, target: pd.DataFrame) -> List[float]:
+    """
+    Standardised precipitation index at one accumulation window.
+
+    Standardised per calendar month, so a dry October is scored against other
+    Octobers rather than against the annual mean.
+    """
+    accum = timeline["era5_precip_mm"].rolling(window, min_periods=1).sum()
+    frame = timeline[MONTH_KEY].assign(accum=accum)
+    stats = frame.groupby("month")["accum"].agg(["mean", "std"])
+
+    scored = {}
+    for year, month, total in zip(frame["year"], frame["month"], frame["accum"]):
+        month = int(month)
+        if month not in stats.index:
+            continue
+        spread = max(float(stats.loc[month, "std"]), 0.01)
+        z = (float(total) - float(stats.loc[month, "mean"])) / spread
+        scored[(int(year), month)] = float(np.clip(z, -SPI_CLAMP, SPI_CLAMP))
+
+    return [
+        scored.get((int(y), int(m)), 0.0)
+        for y, m in zip(target["year"], target["month"])
+    ]
+
+
+def _hargreaves_pet_mm(temp_c: float, month: int) -> float:
+    """
+    Monthly potential evapotranspiration by the Hargreaves method.
+
+    Uses the temperature-only form, since SEAS5 monthly single-level output gives
+    no daily temperature range. The diurnal range is approximated at 12 C, typical
+    of semi-arid East Africa.
+    """
+    days = DAYS_IN_MONTH.get(int(month), 30)
+    ra = RA_EQUATORIAL.get(int(month), 34.5)
+    daily = 0.0023 * (temp_c + 17.8) * (12.0 ** 0.5) * ra * 0.408
+    return max(daily, 0.0) * days
 
 # Season encoding matching training pipeline
 MONTH_TO_SEASON = {
@@ -206,20 +305,31 @@ def build_climatology(climatology_grib_path: str) -> Dict[int, Dict[str, float]]
 RATE_VARS = ("tprate", "erate", "mrort")
 
 
-def _bias_factor(value: float, clim_value: float) -> float:
-    """
-    The multiplicative factor applied by bias_correct.
+ANOMALY_CLAMP = (0.5, 2.0)
+ANOM_SUFFIX = "_anom_ratio"
 
-    Extracted so the gridded and regional paths apply identical arithmetic. This
-    deliberately reproduces the current behaviour rather than changing published
-    numbers. Note the factor is the forecast-to-climatology ratio itself, so the
-    correction squares the anomaly instead of removing it; docs/METHODS.md describes
-    anomaly mapping onto the ERA5 climatology, which is not what this does. Fixing it
-    is a separate change, and fixing it here fixes both paths at once.
+# SEAS5 variable -> the ERA5 feature whose observed climatology anchors its anomaly.
+ANOM_TARGET = {
+    "tprate": "era5_precip_mm",
+    "erate": "era5_et_mm",
+}
+
+
+def _anomaly_ratio(value: float, model_clim: float) -> float:
     """
-    if clim_value == 0:
+    The forecast's departure from its own model climatology, as a ratio.
+
+    This is the quantity SEAS5 actually predicts well. Its absolute magnitude is
+    biased, its anomaly is not, which is why bias correction transplants the
+    anomaly onto an observed climatology rather than rescaling the raw value.
+
+    Clamped because a near-zero model climatology in an arid month makes the raw
+    ratio explode; the clamp bounds a single dry cell's influence.
+    """
+    if model_clim == 0:
         return 1.0
-    return min(max(value / clim_value, 0.5), 2.0)
+    lo, hi = ANOMALY_CLAMP
+    return min(max(value / model_clim, lo), hi)
 
 
 def bias_correct(forecast_df: pd.DataFrame, climatology: Dict[int, Dict[str, float]]) -> pd.DataFrame:
@@ -228,6 +338,9 @@ def bias_correct(forecast_df: pd.DataFrame, climatology: Dict[int, Dict[str, flo
     Temperature is kept as-is (SEAS5 t2m is already calibrated).
     """
     df = forecast_df.copy()
+    for var in RATE_VARS:
+        df[var + ANOM_SUFFIX] = 1.0
+
     for idx, row in df.iterrows():
         month = int(row["month"])
         if month not in climatology:
@@ -235,7 +348,7 @@ def bias_correct(forecast_df: pd.DataFrame, climatology: Dict[int, Dict[str, flo
         clim = climatology[month]
         for var in RATE_VARS:
             if var in df.columns and var in clim:
-                df.at[idx, var] = row[var] * _bias_factor(row[var], clim[var])
+                df.at[idx, var + ANOM_SUFFIX] = _anomaly_ratio(row[var], clim[var])
     return df
 
 
@@ -320,6 +433,20 @@ def seas5_to_era5_features(
             act_vp = 6.1078 * np.exp(17.27 * td / (td + 237.3))
             feat["era5_vpd_hpa"] = max(sat_vp - act_vp, 0)
 
+        # PET via Hargreaves, as documented in METHODS.md. The previous mapping took
+        # mrort (mean runoff rate) as PET, which is a different physical quantity:
+        # in the ASALs runoff is near zero while PET is high, so SPEI's water balance
+        # (precip - PET) was computed against roughly nothing.
+        if t is not None:
+            feat["era5_pet_mm"] = _hargreaves_pet_mm(t, feat["month"])
+        if "mrort" in raw and not pd.isna(raw["mrort"]):
+            feat["era5_runoff_mm"] = abs(float(raw["mrort"])) * SECONDS_PER_MONTH * 1000
+
+        for var in RATE_VARS:
+            ratio_col = var + ANOM_SUFFIX
+            if ratio_col in raw and not pd.isna(raw[ratio_col]):
+                feat[ratio_col] = float(raw[ratio_col])
+
         # Evaporative stress
         et = feat.get("era5_et_mm", 0)
         pet = feat.get("era5_pet_mm", 0)
@@ -328,6 +455,15 @@ def seas5_to_era5_features(
         rows.append(feat)
 
     df = pd.DataFrame(rows)
+
+    # Anchor each anomaly on the observed (ERA5) climatology. The ratio is
+    # dimensionless, so it transfers across the SEAS5 -> ERA5 unit change; this is
+    # the step that makes the correction remove bias rather than repeat it.
+    if historical_df is not None and len(historical_df) > 0:
+        for seas5_var, era5_col in ANOM_TARGET.items():
+            df = _anchor_on_observed(df, historical_df, seas5_var + ANOM_SUFFIX, era5_col)
+
+    df = df.drop(columns=[c for c in df.columns if c.endswith(ANOM_SUFFIX)])
 
     # Soil moisture: SEAS5 does not include SM directly.
     # Persist from last historical observation (documented assumption).
@@ -359,21 +495,17 @@ def seas5_to_era5_features(
             else:
                 df[anom_col] = 0.0
 
-        # SPI: z-score approximation for forecast months
-        if "era5_precip_mm" in hist.columns and "era5_precip_mm" in df.columns:
-            month_stats = hist.groupby("month")["era5_precip_mm"].agg(["mean", "std"])
-            for spi_col in ["era5_spi3", "era5_spi6", "era5_spi12"]:
-                df[spi_col] = df.apply(
-                    lambda r: (
-                        (r["era5_precip_mm"] - month_stats.loc[int(r["month"]), "mean"])
-                        / max(month_stats.loc[int(r["month"]), "std"], 0.01)
-                        if int(r["month"]) in month_stats.index else 0
-                    ),
-                    axis=1,
-                ).clip(-3.5, 3.5)
+        # SPI over real accumulation windows. Previously SPI-3, SPI-6 and SPI-12
+        # were the same single-month z-score, so three features that should carry
+        # different timescales carried one value; a 12-month deficit was invisible.
+        has_precip = "era5_precip_mm" in hist.columns and "era5_precip_mm" in df.columns
+        if has_precip:
+            timeline = _precip_timeline(hist, df)
+            for window, spi_col in SPI_WINDOWS.items():
+                df[spi_col] = _spi_over_window(timeline, window, df)
         else:
-            for col in ["era5_spi3", "era5_spi6", "era5_spi12"]:
-                df[col] = 0.0
+            for spi_col in SPI_WINDOWS.values():
+                df[spi_col] = 0.0
     else:
         for col in ["era5_temp_anomaly_c", "era5_precip_anomaly",
                      "era5_spi3", "era5_spi6", "era5_spi12"]:

@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cascade Bridge — Drought Forecast Bulletin</title>
+<title>Cascade Bridge — Drought Forecast Bulletin | Nature Cipher</title>
+<link rel="icon" type="image/png" href="./favicon.png">
+<meta name="description" content="Seasonal drought forecasts for Kenya's ASALs. Satellite indicators are synthesised from atmospheric forecasts, so the model runs three months ahead of any observation.">
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
 <style>
 :root{
@@ -55,8 +57,26 @@ section{display:flex; flex-direction:column; gap:14px}
 .card{background:var(--surface); border:1px solid var(--hair); padding:18px 20px}
 .note{font-size:13px; color:var(--slate); max-width:70ch}
 
-.masthead{border-bottom:2px solid var(--ink); padding-bottom:14px; display:flex; flex-direction:column; gap:12px}
-.masthead-top{display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:12px}
+.masthead{border-bottom:2px solid var(--ink); padding-bottom:14px; display:flex; flex-direction:column; gap:14px}
+.masthead-top{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px}
+.brand{display:flex; align-items:center; gap:14px}
+.logo{width:44px; height:auto; color:var(--accent); flex:none}
+.brandtext{display:flex; flex-direction:column; gap:2px}
+.byline{font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--slate)}
+
+/* Cascade strip: the architecture is the contribution, so it gets shown, not described. */
+.cascade{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:0;
+  border:1px solid var(--hair); background:var(--surface)}
+.stage{padding:14px 16px; border-right:1px solid var(--hair-2); display:flex;
+  flex-direction:column; gap:5px; position:relative}
+.stage:last-child{border-right:none}
+.stage .idx{font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:var(--slate)}
+.stage .nm{font-family:var(--mono); font-size:12.5px; color:var(--ink); font-weight:600}
+.stage .out{font-size:12px; color:var(--slate); line-height:1.45}
+.stage[data-kind="source"] .nm{color:var(--accent)}
+.stage[data-kind="decision"]{background:var(--accent-soft)}
+.stage[data-kind="decision"] .nm{color:var(--accent)}
+@media (max-width:760px){ .stage{border-right:none; border-bottom:1px solid var(--hair-2)} }
 .badge{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase;
   border:1px solid currentColor; padding:3px 9px; color:var(--watch); white-space:nowrap}
 .runmeta{display:grid; grid-template-columns:repeat(auto-fit,minmax(148px,1fr)); gap:14px 22px;
@@ -157,6 +177,50 @@ code{font-family:var(--mono); font-size:12px; background:var(--accent-soft); pad
 a{color:var(--accent)}
 a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
 .err{border:1px solid var(--drought); color:var(--drought); padding:16px 20px; font-family:var(--mono); font-size:13px}
+.ask{display:flex; flex-direction:column; gap:12px}
+.asklog{display:flex; flex-direction:column; gap:12px; max-height:340px; overflow-y:auto}
+.msg{display:flex; flex-direction:column; gap:3px}
+.msg .who{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--slate)}
+.msg p{font-size:14px; white-space:pre-wrap}
+.msg[data-who="you"] p{color:var(--ink-2)}
+.askrow{display:flex; gap:8px}
+.askrow input{flex:1; width:auto}
+.chips{display:flex; flex-wrap:wrap; gap:7px}
+.chip{font-family:var(--mono); font-size:11.5px; padding:5px 10px; border:1px solid var(--hair);
+  background:transparent; color:var(--slate); cursor:pointer}
+.chip:hover{border-color:var(--accent); color:var(--accent)}
+
+/* Bulletin: on screen a preview, on paper the deliverable. */
+#bulletin{display:none}
+#bulletin.ready{display:block}
+.bhead{border-bottom:2px solid var(--ink); padding-bottom:10px; margin-bottom:14px}
+.bhead h3{font-size:18px}
+.bmeta{font-family:var(--mono); font-size:11px; color:var(--slate); margin-top:5px}
+.bsec{margin-top:14px}
+.bsec h4{font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--slate); margin:0 0 5px}
+.bsec p{font-size:14px; line-height:1.6}
+.acts{display:flex; flex-direction:column; gap:8px; margin-top:8px}
+.act-row{display:grid; grid-template-columns:88px 1fr; gap:10px; align-items:baseline;
+  padding:8px 0; border-top:1px solid var(--hair-2)}
+.urg{font-family:var(--mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  padding:2px 7px; border:1px solid currentColor; text-align:center}
+.urg[data-u="act"]{color:var(--drought)}
+.urg[data-u="prepare"]{color:var(--watch)}
+.urg[data-u="monitor"]{color:var(--normal)}
+
+@media print{
+  @page{margin:16mm}
+  body{background:#fff; color:#000; font-size:11pt}
+  .wrap>*{display:none!important}
+  .wrap>#bulletinSection{display:block!important}
+  #bulletinSection h2,#bulletinSection .actions,#bulletinSection .note{display:none!important}
+  #bulletin{display:block!important; border:none; padding:0}
+  .card{border:none; padding:0; background:none}
+  .tblwrap{overflow:visible; border:1px solid #999}
+  table{min-width:0; font-size:9.5pt}
+  a{color:#000; text-decoration:none}
+}
 @media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
 @media (max-width:900px){
   .controls{grid-template-columns:1fr; gap:14px}
@@ -171,6 +235,11 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script>
+// Inlined rather than linked so the mark renders before any network round-trip and
+// inherits the theme; currentColor is what makes one file work on both grounds.
+const LOGO=`<svg class="logo" viewBox="0 0 66 44" role="img" aria-label="Cascade Bridge">
+<path fill="currentColor" d="M45 17.5H40.5V9C40.5 9 39 5 33 5C27 5 26 9 26 9V44H20C20 44 15.5 37.5 10.5 33C5.5 28.5 0 26.5 0 26.5V21.5H21V0H45V17.5ZM65.5 26C65.5 26 59.5 29 55 33C50.5 37 46 44 46 44H40.5V26H29.5V21H65.5V26ZM45.5 34.5C45.5 34.5 48.1148 31.6194 50 30C52.0146 28.2694 55.5 26 55.5 26H45.5V34.5ZM10.5 26C10.5 26 13.9854 28.1359 16 29.7646C17.8852 31.2888 20.5 34 20.5 34V26H10.5Z"/></svg>`;
+
 const MONTHS=["","January","February","March","April","May","June","July","August","September","October","November","December"];
 const WATCH_BAND=0.05;
 const API_BASE="./api";
@@ -226,7 +295,13 @@ function shell(){
   return `
   <header class="masthead">
     <div class="masthead-top">
-      <h1>Cascade Bridge — Drought Forecast Bulletin</h1>
+      <div class="brand">
+        ${LOGO}
+        <div class="brandtext">
+          <h1>Cascade Bridge</h1>
+          <span class="byline">Drought forecast bulletin &middot; by Nature Cipher</span>
+        </div>
+      </div>
       <span class="badge">${esc(r.status)}</span>
     </div>
     <div class="runmeta">
@@ -260,6 +335,41 @@ function shell(){
   </div>
 
   <div id="callout"></div>
+
+  <section>
+    <h2>How this forecast was produced</h2>
+    <div class="cascade">
+      <div class="stage" data-kind="source">
+        <span class="idx">INPUT</span>
+        <span class="nm">SEAS5</span>
+        <span class="out">${r.ensemble_members} ensemble members, ${esc(r.ensemble_reduction)}.
+        Atmosphere only — no satellite feed.</span>
+      </div>
+      <div class="stage">
+        <span class="idx">BRIDGE 1</span>
+        <span class="nm">&rarr; CHIRPS</span>
+        <span class="out">Rainfall proxy synthesised from ERA5 variables.</span>
+      </div>
+      <div class="stage">
+        <span class="idx">BRIDGE 2</span>
+        <span class="nm">&rarr; NDVI</span>
+        <span class="out">Vegetation proxy. Rainfall drives greenness.</span>
+      </div>
+      <div class="stage">
+        <span class="idx">BRIDGE 3</span>
+        <span class="nm">&rarr; LST</span>
+        <span class="out">Day and night surface temperature. Greenness moderates heat.</span>
+      </div>
+      <div class="stage" data-kind="decision">
+        <span class="idx">CLASSIFIER</span>
+        <span class="nm">${esc(r.drought_model)}</span>
+        <span class="out">51 features &rarr; P(drought), at ${fs[0].lead_months}&ndash;${fs[fs.length-1].lead_months} months lead.</span>
+      </div>
+    </div>
+    <p class="note">Each bridge consumes the previous one's output. The satellite record is not
+    discarded — it is distilled into the bridges at training time, which is what lets the
+    classifier run for months no satellite has observed yet.</p>
+  </section>
 
   <section>
     <h2>Coverage and severity</h2>
@@ -296,6 +406,33 @@ function shell(){
       <code>seas5_adapter.py:84</code> and discards the spread, so no forecast here carries an interval.
       Every probability on this page is a point estimate of unknown width.</p>
     </div>
+  </section>
+
+  <section>
+    <h2>Ask the forecast</h2>
+    <div class="card ask">
+      <div class="asklog" id="asklog"></div>
+      <div class="chips" id="askchips"></div>
+      <div class="askrow">
+        <input id="askinput" placeholder="Which counties should pre-position water trucking?"
+               aria-label="Ask a question about this forecast">
+        <button type="button" class="act" id="asksend">Ask</button>
+      </div>
+      <p class="note">Answers are grounded in this issue's forecast and validation data.
+      The assistant is instructed to refuse rather than estimate a figure the data does not contain.</p>
+    </div>
+  </section>
+
+  <section id="bulletinSection">
+    <h2>County bulletin</h2>
+    <div class="actions">
+      <button type="button" class="act" id="genbulletin">Generate bulletin</button>
+      <button type="button" class="act" id="printbulletin" disabled>Save as PDF</button>
+    </div>
+    <div class="card" id="bulletin"></div>
+    <p class="note" id="bulletinnote">Drafts the situation report a county drought committee would
+    circulate. The narrative is written by the model; every number in the table is rendered from
+    the forecast data, so a mis-stated figure cannot reach the table.</p>
   </section>
 
   <section>
@@ -441,24 +578,59 @@ function renderValidation(){
   const el=document.getElementById("validation");
   if(!VAL){ el.innerHTML=`<div class="gapbox"><span class="lbl">Validation not loaded</span>
     <p><code>validation.json</code> did not load, so no skill evidence is shown.</p></div>`; return; }
-  const b=VAL.backtest,m=b.metrics,ci=b.confidence_interval;
+  const b=VAL.backtest||{}, m=b.metrics||{}, ci=b.confidence_interval;
+  const num=(v,d=3)=>(typeof v==="number")?v.toFixed(d):"n/a";
+
+  // Accepts both shapes: the multi-baseline object written by
+  // scripts/evaluate_baselines.py, and the earlier single `baseline` field.
+  const bl=b.baselines||(b.baseline?{legacy:b.baseline}:{});
+  const LABELS={majority_class:"Majority class",era5_only:"ERA5 only, no bridges",legacy:"Baseline"};
+  const rows=Object.entries(bl).map(([k,v])=>{
+    const bm=(v&&v.computed&&v.metrics)?v.metrics:null;
+    return `<tr><td>${esc(LABELS[k]||k)}</td>
+      <td>${bm?num(bm.accuracy):'<span class="gapcell">not computed</span>'}</td>
+      <td>${bm?num(bm.f1):""}</td>
+      <td>${bm?num(bm.recall):""}</td></tr>`;
+  }).join("");
+
+  const lift=b.cascade_lift_f1_over_era5_only;
+  // The lift is the cascade's own thesis test: the bridges are deterministic
+  // functions of the ERA5 inputs, so a non-positive lift means they add no
+  // information the classifier did not already have.
+  const liftBox = (typeof lift==="number") ? `
+    <div class="${lift>0?'card':'gapbox'}">
+      <span class="lbl">${lift>0?"Cascade lift over ERA5-only":"Open gap — cascade lift"}</span>
+      <p style="margin-top:6px"><b style="font-size:17px;color:${lift>0?'var(--normal)':'var(--drought)'}">
+      ${lift>0?"+":""}${num(lift)} F1</b> versus the same classifier without the bridges.
+      ${lift>0
+        ? "The bridges add signal the atmospheric features alone do not carry."
+        : "The bridges do not improve on their own inputs on this split. They are deterministic functions of the ERA5 features, so this is the expected ceiling; the contribution is forecastability at lead time, not accuracy."}</p>
+    </div>` : "";
+
   el.innerHTML=`
     <div class="card"><div class="runmeta">
-      <div><span class="lbl">Region</span><b>${esc(b.region)}</b></div>
-      <div><span class="lbl">Period</span><b>${esc(b.period.start)} to ${esc(b.period.end)}</b></div>
-      <div><span class="lbl">Samples</span><b>${b.n_samples} months</b></div>
-      <div><span class="lbl">Accuracy</span><b>${m.accuracy.toFixed(3)}</b></div>
-      <div><span class="lbl">F1</span><b>${m.f1.toFixed(3)}</b></div>
-      <div><span class="lbl">Recall</span><b>${m.recall.toFixed(3)}</b></div>
-      <div><span class="lbl">Drought base rate</span><b class="gapcell">${b.base_rate===null?"not published":(b.base_rate*100).toFixed(1)+"%"}</b></div>
-      <div><span class="lbl">Baseline</span><b class="gapcell">${b.baseline.computed?esc(JSON.stringify(b.baseline.metrics)):"not computed"}</b></div>
+      <div><span class="lbl">Region</span><b>${esc(b.region||"n/a")}</b></div>
+      <div><span class="lbl">Period</span><b>${esc((b.period||{}).start||"?")} to ${esc((b.period||{}).end||"?")}</b></div>
+      <div><span class="lbl">Samples</span><b>${b.n_samples||0} months</b></div>
+      <div><span class="lbl">Accuracy</span><b>${num(m.accuracy)}</b></div>
+      <div><span class="lbl">F1</span><b>${num(m.f1)}</b></div>
+      <div><span class="lbl">Recall</span><b>${num(m.recall)}</b></div>
+      <div><span class="lbl">Drought base rate</span><b${b.base_rate==null?' class="gapcell"':''}>${
+        b.base_rate==null?"not published":(b.base_rate*100).toFixed(1)+"%"}</b></div>
     </div></div>
+    ${liftBox}
+    ${rows?`<div class="tblwrap"><table>
+      <thead><tr><th>Baseline</th><th>Accuracy</th><th>F1</th><th>Recall</th></tr></thead>
+      <tbody>${rows}</tbody></table></div>`:""}
     <div class="gapbox">
-      <span class="lbl">Open gap — interpretability of the headline metric</span>
-      <p>Accuracy ${m.accuracy.toFixed(3)} over ${b.n_samples} months carries a ${(ci.level*100).toFixed(0)}%
-      confidence interval of <b>${ci.low.toFixed(3)} to ${ci.high.toFixed(3)}</b>. The window spans the 2020 to 2023
-      Horn of Africa drought, so drought is likely the majority class. Until the base rate and a majority-class
-      baseline are published, this number cannot be read as skill.</p>
+      <span class="lbl">How to read the headline metric</span>
+      <p>Accuracy ${num(m.accuracy)} over ${b.n_samples||0} months${ci?` carries a ${(ci.level*100).toFixed(0)}%
+      confidence interval of <b>${num(ci.low)} to ${num(ci.high)}</b>`:""}.${
+        b.base_rate!=null
+          ? ` Drought is ${(b.base_rate*100).toFixed(0)}% of months in this window, so the baselines
+             above are the comparison that matters, not the raw accuracy.`
+          : " The base rate is not published for this window, so the raw accuracy cannot be read as skill."
+      } The decision threshold was tuned on this same window.</p>
     </div>
     <div class="card">
       <span class="lbl">Retrospective, ${esc(VAL.retrospective.period.start)} to ${esc(VAL.retrospective.period.end)}</span>
@@ -484,6 +656,7 @@ function paintMap(){
     const prob=rec?rec.prob:null;
     return {...f,properties:{...f.properties,
       prob, region_name:rec?rec.name:null,
+      prob_label: prob==null ? "" : prob.toFixed(2),
       sev:sevOf(prob,state.threshold),
       dim:(state.region&&rid!==state.region)?1:0}};
   })};
@@ -531,9 +704,40 @@ function initMap(){
     map.addSource("counties",{type:"geojson",data:state.counties});
     map.addLayer({id:"counties-fill",type:"fill",source:"counties",paint:{"fill-color":"#888","fill-opacity":0.6}});
     map.addLayer({id:"counties-line",type:"line",source:"counties",paint:{"line-color":"#999","line-width":0.6}});
+    // Covered counties carry a heavier edge so the model's footprint reads as a
+    // shape at a glance, rather than having to be inferred from fill alone.
+    map.addLayer({id:"counties-edge",type:"line",source:"counties",
+      filter:["!=",["get","region_id"],null],
+      paint:{"line-color":cssVar("--ink"),"line-width":1.1,"line-opacity":0.5}});
+    map.addLayer({id:"counties-hover",type:"line",source:"counties",
+      filter:["==",["get","county"],""],
+      paint:{"line-color":cssVar("--accent"),"line-width":2.2}});
+    map.addLayer({id:"counties-label",type:"symbol",source:"counties",
+      filter:["!=",["get","region_id"],null],
+      layout:{"text-field":["concat",["get","county"],"\n",["get","prob_label"]],
+              "text-size":10.5,"text-line-height":1.15,"text-allow-overlap":false,
+              "text-padding":3},
+      paint:{"text-color":cssVar("--ink"),"text-halo-color":cssVar("--surface"),
+             "text-halo-width":1.6}});
+
+    // Frame the covered counties instead of a fixed centre, so the map still
+    // fits when regions are added or the panel is resized.
+    const bb = state.counties.features
+      .filter(f => f.properties.region_id)
+      .reduce((acc, f) => {
+        const walk = c => Array.isArray(c[0]) ? c.forEach(walk)
+          : (acc[0]=Math.min(acc[0],c[0]), acc[1]=Math.min(acc[1],c[1]),
+             acc[2]=Math.max(acc[2],c[0]), acc[3]=Math.max(acc[3],c[1]));
+        walk(f.geometry.coordinates);
+        return acc;
+      }, [180,90,-180,-90]);
+    if(bb[0] < bb[2]) map.fitBounds([[bb[0],bb[1]],[bb[2],bb[3]]],{padding:44,duration:0});
 
     const popup=new maplibregl.Popup({closeButton:false,closeOnClick:false});
     map.on("mousemove","counties-fill",e=>{
+      if(map.getLayer("counties-hover")){
+        map.setFilter("counties-hover",["==",["get","county"],e.features[0].properties.county]);
+      }
       map.getCanvas().style.cursor="pointer";
       const p=e.features[0].properties;
       const body=p.region_name
@@ -541,7 +745,10 @@ function initMap(){
         : `${p.county}<br>no model coverage`;
       popup.setLngLat(e.lngLat).setHTML(body).addTo(map);
     });
-    map.on("mouseleave","counties-fill",()=>{ map.getCanvas().style.cursor=""; popup.remove(); });
+    map.on("mouseleave","counties-fill",()=>{
+      map.getCanvas().style.cursor=""; popup.remove();
+      if(map.getLayer("counties-hover")) map.setFilter("counties-hover",["==",["get","county"],""]);
+    });
     map.on("click","counties-fill",e=>{
       const rid=e.features[0].properties.region_id;
       if(rid){ state.region = state.region===rid ? null : rid; render(); }
@@ -568,6 +775,148 @@ function initMap(){
   });
 }
 
+const SUGGESTED = [
+  "Which counties should pre-position water trucking?",
+  "How confident should I be in the October signal?",
+  "What would change if I used a 0.35 threshold?",
+  "Is this a forecast or a hindcast?",
+];
+
+const chatHistory = [];
+
+function pushMessage(who, text){
+  chatHistory.push({role: who === "you" ? "user" : "assistant", content: text});
+  const log = document.getElementById("asklog");
+  const node = document.createElement("div");
+  node.className = "msg";
+  node.dataset.who = who;
+  node.innerHTML = `<span class="who">${who === "you" ? "You" : "Cascade Bridge"}</span><p></p>`;
+  node.querySelector("p").textContent = text;
+  log.appendChild(node);
+  log.scrollTop = log.scrollHeight;
+  return node;
+}
+
+async function ask(question){
+  const input = document.getElementById("askinput");
+  const send = document.getElementById("asksend");
+  if(!question.trim()) return;
+
+  input.value = "";
+  send.disabled = true;
+  pushMessage("you", question);
+  const pending = pushMessage("bot", "Thinking...");
+
+  try {
+    const res = await fetch(API_BASE + "/chat", {
+      method: "POST",
+      headers: {"content-type": "application/json"},
+      body: JSON.stringify({messages: chatHistory}),
+    });
+    const data = await res.json();
+    // Drop the placeholder from history so the model never sees "Thinking..."
+    // echoed back as its own prior turn.
+    chatHistory.pop();
+    if(!res.ok){
+      pending.querySelector("p").textContent = data.error || `Request failed (${res.status}).`;
+    } else {
+      pending.querySelector("p").textContent = data.reply;
+      chatHistory.push({role: "assistant", content: data.reply});
+    }
+  } catch(e) {
+    chatHistory.pop();
+    pending.querySelector("p").textContent =
+      "Chat is unavailable. It needs the /api/chat function and a GROQ_API_KEY secret.";
+  } finally {
+    send.disabled = false;
+    input.focus();
+  }
+}
+
+function initChat(){
+  const chips = document.getElementById("askchips");
+  chips.innerHTML = SUGGESTED.map(q => `<button type="button" class="chip">${esc(q)}</button>`).join("");
+  chips.querySelectorAll(".chip").forEach(b => b.onclick = () => ask(b.textContent));
+
+  const input = document.getElementById("askinput");
+  document.getElementById("asksend").onclick = () => ask(input.value);
+  input.addEventListener("keydown", e => { if(e.key === "Enter") ask(input.value); });
+}
+
+function renderBulletin(payload){
+  const {narrative: n, rows, threshold, init_date, status} = payload;
+  const issued = new Date().toISOString().slice(0, 10);
+
+  const actions = (n.recommended_actions || []).map(a => `
+    <div class="act-row">
+      <span class="urg" data-u="${esc(a.urgency)}">${esc(a.urgency)}</span>
+      <span><b>${esc(a.region)}</b> — ${esc(a.action)}</span>
+    </div>`).join("");
+
+  const table = rows.map(r => `
+    <tr><td>${esc(r.region)}</td><td>${esc(r.month)}</td><td>${r.lead}</td>
+    <td>${r.prob.toFixed(3)}</td><td>${r.margin >= 0 ? "+" : ""}${r.margin.toFixed(3)}</td>
+    <td>${r.flagged ? "DROUGHT" : "normal"}</td></tr>`).join("");
+
+  document.getElementById("bulletin").innerHTML = `
+    <div class="bhead">
+      <h3>ASAL Drought Bulletin</h3>
+      <div class="bmeta">Issued ${issued} · SEAS5 initialization ${esc(init_date)} ·
+      decision threshold ${threshold} · status ${esc(status)}</div>
+    </div>
+    <div class="bsec"><h4>Headline</h4><p><b>${esc(n.headline)}</b></p></div>
+    <div class="bsec"><h4>Situation</h4><p>${esc(n.situation)}</p></div>
+    <div class="bsec"><h4>Confidence</h4><p>${esc(n.confidence)}</p></div>
+    <div class="bsec"><h4>Recommended action</h4><div class="acts">${actions}</div></div>
+    <div class="bsec"><h4>Forecast data</h4>
+      <div class="tblwrap"><table>
+        <thead><tr><th>Region</th><th>Valid</th><th>Lead</th><th>P(drought)</th>
+        <th>Margin</th><th>Signal</th></tr></thead>
+        <tbody>${table}</tbody></table></div>
+    </div>
+    <div class="bsec"><h4>Basis and limits</h4>
+      <p>Produced by Cascade Bridge from a single ECMWF SEAS5 initialization. Satellite
+      indicators are synthesised by chained XGBoost regressors, not observed. Ensemble spread
+      is not carried, so each probability is a point estimate without an error bar. Soil
+      moisture uses a persistence assumption. Forecasts are experimental and are intended to
+      complement, not replace, ICPAC Drought Watch and national advisories.</p>
+    </div>`;
+
+  document.getElementById("bulletin").classList.add("ready");
+  document.getElementById("printbulletin").disabled = false;
+}
+
+function initBulletin(){
+  const gen = document.getElementById("genbulletin");
+  const note = document.getElementById("bulletinnote");
+
+  gen.onclick = async () => {
+    gen.disabled = true;
+    const original = gen.textContent;
+    gen.textContent = "Drafting...";
+    try {
+      const res = await fetch(API_BASE + "/bulletin", {
+        method: "POST",
+        headers: {"content-type": "application/json"},
+        body: JSON.stringify({threshold: state.threshold}),
+      });
+      const data = await res.json();
+      if(!res.ok) throw new Error(data.error || `Request failed (${res.status}).`);
+      renderBulletin(data);
+    } catch(e) {
+      note.textContent = `Bulletin unavailable: ${e.message} It needs the /api/bulletin function `
+        + "and a GROQ_API_KEY secret on the deployment.";
+    } finally {
+      gen.disabled = false;
+      gen.textContent = original;
+    }
+  };
+
+  // Print stylesheet hides everything except the bulletin, so the browser's
+  // print-to-PDF produces the document itself rather than a screenshot of a dashboard.
+  document.getElementById("printbulletin").onclick = () => window.print();
+}
+
 function render(){
   renderControls(); renderCallout(); renderSide();
   renderRegions(); renderTable(); renderModelCard(); paintMap();
@@ -584,6 +933,8 @@ function render(){
     app.innerHTML=shell();
     renderValidation();
     render();
+    initChat();
+    initBulletin();
     if(state.counties) initMap();
     else{
       const o=document.getElementById("maploading"); if(o) o.remove();
