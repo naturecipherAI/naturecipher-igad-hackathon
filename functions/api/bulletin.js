@@ -1,56 +1,49 @@
 /**
  * Draft the narrative for a county drought bulletin.
  *
- * Runs at /api/bulletin. Returns structured sections, not prose blob, so the
- * client renders them into the print layout rather than the model deciding
- * typography. The model writes words; the numbers come from the forecast and
- * are re-rendered client-side from the same JSON, so a hallucinated figure
- * cannot reach the PDF's data table.
+ * Runs at /api/bulletin. Returns structured sections rather than a prose blob,
+ * so the client owns the layout. The model writes the words; every number in the
+ * bulletin's table is re-rendered client-side from the forecast JSON, so a
+ * mis-stated figure cannot reach the data table.
  */
 
-const MODEL = "claude-opus-5";
-const MAX_TOKENS = 2000;
+import { groqChat, json, fetchJSON } from "./_groq.js";
 
 const MONTHS = ["", "January", "February", "March", "April", "May", "June", "July",
   "August", "September", "October", "November", "December"];
 
-const SCHEMA = {
-  type: "object",
-  properties: {
-    headline: {
-      type: "string",
-      description: "One sentence, under 20 words, stating the operative finding.",
-    },
-    situation: {
-      type: "string",
-      description: "2-3 sentences on what the forecast says across the covered regions.",
-    },
-    confidence: {
-      type: "string",
-      description:
-        "2-3 sentences on how far to trust this issue: experimental status, single " +
-        "initialization, no ensemble spread, and any signal whose margin is under 0.05.",
-    },
-    recommended_actions: {
-      type: "array",
-      items: {
-        type: "object",
-        properties: {
-          region: { type: "string" },
-          action: { type: "string", description: "One concrete step, under 25 words." },
-          urgency: { type: "string", enum: ["monitor", "prepare", "act"] },
-        },
-        required: ["region", "action", "urgency"],
-        additionalProperties: false,
-      },
-    },
-  },
-  required: ["headline", "situation", "confidence", "recommended_actions"],
-  additionalProperties: false,
-};
+const URGENCIES = ["monitor", "prepare", "act"];
+
+const SHAPE = `{
+  "headline": "one sentence, under 20 words, stating the operative finding",
+  "situation": "2-3 sentences on what the forecast says across the covered regions",
+  "confidence": "2-3 sentences on how far to trust this issue",
+  "recommended_actions": [
+    {"region": "region name", "action": "one concrete step, under 25 words",
+     "urgency": "monitor | prepare | act"}
+  ]
+}`;
+
+/** Keep only what the print layout can render, so a malformed field degrades to absent. */
+function sanitise(raw) {
+  const str = v => (typeof v === "string" ? v.trim() : "");
+  const actions = Array.isArray(raw.recommended_actions) ? raw.recommended_actions : [];
+  return {
+    headline: str(raw.headline),
+    situation: str(raw.situation),
+    confidence: str(raw.confidence),
+    recommended_actions: actions
+      .map(a => ({
+        region: str(a && a.region),
+        action: str(a && a.action),
+        urgency: URGENCIES.includes(a && a.urgency) ? a.urgency : "monitor",
+      }))
+      .filter(a => a.region && a.action),
+  };
+}
 
 export async function onRequestPost({ request, env }) {
-  if (!env.ANTHROPIC_API_KEY) {
+  if (!env.GROQ_API_KEY) {
     return json({ error: "Bulletin generation is not configured on this deployment." }, 503);
   }
 
@@ -69,7 +62,6 @@ export async function onRequestPost({ request, env }) {
   const rows = (forecast.regions || []).flatMap(region =>
     (region.forecasts || []).map(f => ({
       region: region.name,
-      counties: region.counties || [],
       month: `${MONTHS[f.valid_month]} ${f.valid_year}`,
       lead: f.lead_months,
       prob: f.drought_prob,
@@ -80,9 +72,18 @@ export async function onRequestPost({ request, env }) {
   const flagged = rows.filter(r => r.flagged);
   const thin = flagged.filter(r => r.margin < 0.05);
 
-  const prompt = `Draft a drought bulletin for county drought committees in Kenya's ASALs.
+  const system = `You draft drought bulletins for county drought committees in Kenya's ASALs.
 
-Issued from the ${forecast.run.init_date} SEAS5 initialization. Status: ${forecast.run.status}.
+Write for a county officer deciding whether to pre-position water trucking and
+fodder. Use only the numbers you are given. Name counties, not just region
+labels. Size each action to what the evidence supports: "monitor" when below
+threshold, "prepare" when flagged on a thin margin, "act" only on a clear
+margin. Do not overstate; these forecasts are experimental.
+
+Reply with JSON only, matching this shape exactly:
+${SHAPE}`;
+
+  const prompt = `Issued from the ${forecast.run.init_date} SEAS5 initialization. Status: ${forecast.run.status}.
 Decision threshold in use: ${threshold}.
 
 FORECASTS
@@ -94,71 +95,45 @@ ${(forecast.regions || []).map(r => `${r.name}: ${(r.counties || []).join(", ")}
 ${flagged.length === 0
   ? "No region is above the threshold this issue. Say so directly; do not manufacture urgency."
   : `Flagged: ${flagged.map(r => `${r.region} ${r.month}`).join("; ")}.`}
-${thin.length ? `Margins under 0.05 (narrower than this pipeline resolves): ${thin.map(r => `${r.region} ${r.month} at +${r.margin}`).join("; ")}. Say this plainly.` : ""}
+${thin.length ? `Margins under 0.05, narrower than this pipeline resolves: ${thin.map(r => `${r.region} ${r.month} at +${r.margin}`).join("; ")}. Say this plainly in the confidence section.` : ""}
 
-Write for a county officer deciding whether to pre-position water trucking and
-fodder. Use only the numbers above. Name counties, not just region labels.
-Give one action per region, sized to what the evidence supports: "monitor" when
-below threshold, "prepare" when flagged on a thin margin, "act" only on a clear
-margin. Do not overstate. These forecasts are experimental.`;
+Mention in the confidence section that this is a single initialization, that
+ensemble spread is not carried so each probability is a point estimate, and that
+soil moisture uses a persistence assumption.
 
-  const upstream = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      "x-api-key": env.ANTHROPIC_API_KEY,
-      "anthropic-version": "2023-06-01",
-    },
-    body: JSON.stringify({
-      model: MODEL,
-      max_tokens: MAX_TOKENS,
-      output_config: { effort: "medium", format: { type: "json_schema", schema: SCHEMA } },
+Return the JSON object now.`;
+
+  try {
+    const { text, model } = await groqChat(env, {
+      system,
       messages: [{ role: "user", content: prompt }],
-    }),
-  });
+      maxTokens: 1600,
+      temperature: 0.3,
+      jsonMode: true,
+    });
 
-  if (!upstream.ok) {
-    const detail = await upstream.text();
-    return json({ error: `Model request failed (${upstream.status}).`, detail: detail.slice(0, 300) }, 502);
+    let parsed;
+    try {
+      parsed = JSON.parse(text);
+    } catch {
+      return json({ error: "Bulletin came back unparseable." }, 502);
+    }
+
+    const narrative = sanitise(parsed);
+    if (!narrative.headline || !narrative.situation) {
+      return json({ error: "Bulletin came back incomplete." }, 502);
+    }
+
+    return json({
+      narrative,
+      issued: forecast.generated_at,
+      init_date: forecast.run.init_date,
+      status: forecast.run.status,
+      threshold,
+      rows,
+      model,
+    });
+  } catch (err) {
+    return json({ error: err.message }, err.status === 429 ? 429 : 502);
   }
-
-  const data = await upstream.json();
-  if (data.stop_reason === "refusal") {
-    return json({ error: "The model declined to draft this bulletin." }, 502);
-  }
-
-  const text = (data.content || []).filter(b => b.type === "text").map(b => b.text).join("");
-  let narrative;
-  try {
-    narrative = JSON.parse(text);
-  } catch {
-    return json({ error: "Bulletin came back unparseable." }, 502);
-  }
-
-  // Numbers are returned from the forecast, not from the model, so the table in
-  // the PDF cannot drift from the data even if the prose does.
-  return json({
-    narrative,
-    issued: forecast.generated_at,
-    init_date: forecast.run.init_date,
-    status: forecast.run.status,
-    threshold,
-    rows,
-  });
-}
-
-async function fetchJSON(url) {
-  try {
-    const res = await fetch(url);
-    return res.ok ? await res.json() : null;
-  } catch {
-    return null;
-  }
-}
-
-function json(payload, status = 200) {
-  return new Response(JSON.stringify(payload), {
-    status,
-    headers: { "content-type": "application/json" },
-  });
 }

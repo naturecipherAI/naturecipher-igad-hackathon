@@ -722,7 +722,7 @@ async function ask(question){
   } catch(e) {
     chatHistory.pop();
     pending.querySelector("p").textContent =
-      "Chat is unavailable. It needs the /api/chat function and an ANTHROPIC_API_KEY secret.";
+      "Chat is unavailable. It needs the /api/chat function and a GROQ_API_KEY secret.";
   } finally {
     send.disabled = false;
     input.focus();
@@ -801,7 +801,7 @@ function initBulletin(){
       renderBulletin(data);
     } catch(e) {
       note.textContent = `Bulletin unavailable: ${e.message} It needs the /api/bulletin function `
-        + "and an ANTHROPIC_API_KEY secret on the deployment.";
+        + "and a GROQ_API_KEY secret on the deployment.";
     } finally {
       gen.disabled = false;
       gen.textContent = original;

@@ -63,9 +63,14 @@ slider, so a county with pre-positioned funds and a treasury releasing a large
 disbursement can each read the same probabilities at their own risk tolerance.
 Changing the threshold changes the decision, never the forecast.
 
+An LLM layer on Groq turns the issue into an advisory: grounded Q&A over the
+forecast, and a generated county bulletin exported to PDF. The model writes the
+prose; every number in the bulletin's table is rendered from the forecast JSON,
+so a mis-stated figure cannot reach the data.
+
 Stack: Python 3.11, XGBoost 2.0.3 (CPU), xarray/cfgrib, pandas, scipy, boto3, AWS
-S3 and EC2. The dashboard is dependency-free static HTML with MapLibre GL over
-geoBoundaries county boundaries, deployed on Cloudflare Pages.
+S3/EC2. Static dashboard with MapLibre GL, Cloudflare Pages plus Pages Functions,
+Groq for inference.
 
 We publish the ERA5-only baseline — the same classifier without the bridges. If
 the bridges add nothing over their own inputs, that number says so.
@@ -75,7 +80,7 @@ the bridges add nothing over their own inputs, that number says so.
 ## Technical Information
 
 **Stack:** Python 3.11 · XGBoost 2.0.3 · xarray + cfgrib · pandas · scipy · boto3 ·
-AWS S3/EC2 · MapLibre GL JS · Cloudflare Pages
+AWS S3/EC2 · MapLibre GL JS · Cloudflare Pages + Pages Functions · Groq (LLM)
 
 **Repository:** https://github.com/naturecipherAI/naturecipher-igad-hackathon
 

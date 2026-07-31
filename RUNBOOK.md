@@ -138,3 +138,37 @@ git add dashboard/ && git commit -m "data: re-run pipeline after physics fixes" 
 | `Grid field skipped` | GRIB parse or download failed | Non-fatal — `forecast.json` still written |
 | Baselines: label not found | Column name differs | `python scripts/evaluate_baselines.py --label <name>` |
 | PET still near zero | Stale checkout | Confirm `git log -1` shows the fix commit |
+
+
+---
+
+## Appendix — LLM layer (Groq)
+
+The dashboard's chat and bulletin run as Cloudflare Pages Functions. Both fail
+soft: without a key they return 503 and the rest of the dashboard is unaffected.
+
+```bash
+# from the repo root, so functions/ is picked up alongside dashboard/
+npx wrangler pages secret put GROQ_API_KEY --project-name=naturecipher-drought
+npx wrangler pages deploy dashboard --project-name=naturecipher-drought     --branch=main --commit-dirty=true
+```
+
+**Confirm the model id before demoing.** Groq retires hosted models on short
+notice, and a stale id returns 404 at request time, not at deploy time:
+
+```bash
+curl -s -H "Authorization: Bearer $GROQ_API_KEY"   https://api.groq.com/openai/v1/models | python -m json.tool | grep '"id"'
+```
+
+The default is `llama-3.3-70b-versatile`. To use a different one, set the
+`GROQ_MODEL` variable on the Pages project — no code change, no redeploy of the
+functions themselves.
+
+Verify after deploying:
+
+```bash
+curl -s -X POST https://naturecipher-drought.pages.dev/api/chat   -H 'content-type: application/json'   -d '{"messages":[{"role":"user","content":"Which region is flagged?"}]}'
+```
+
+A 503 means the secret is missing. A 502 naming a model id means `GROQ_MODEL`
+needs updating.

@@ -1,7 +1,7 @@
 /**
  * Grounded Q&A over the current forecast issue.
  *
- * Runs as a Cloudflare Pages Function at /api/chat. The API key lives in a
+ * Runs as a Cloudflare Pages Function at /api/chat. The Groq key lives in a
  * Cloudflare secret and never reaches the browser.
  *
  * The model is given the forecast and validation JSON verbatim and told to
@@ -11,8 +11,8 @@
  * contain it.
  */
 
-const MODEL = "claude-opus-5";
-const MAX_TOKENS = 1200;
+import { groqChat, json, fetchJSON } from "./_groq.js";
+
 const MAX_HISTORY = 12;
 
 const MONTHS = ["", "January", "February", "March", "April", "May", "June", "July",
@@ -70,12 +70,12 @@ reanalysis available after the fact; it is not evidence of ahead-of-time skill.
 
 Counties outside the eleven listed have no model coverage. Do not guess for them.
 
-Be brief and concrete. Two or three short paragraphs, no headers, no preamble.
-Lead with the number the person asked for.`;
+Be brief and concrete. Two or three short paragraphs, no headers, no preamble,
+no markdown. Lead with the number the person asked for.`;
 }
 
 export async function onRequestPost({ request, env }) {
-  if (!env.ANTHROPIC_API_KEY) {
+  if (!env.GROQ_API_KEY) {
     return json({ error: "Chat is not configured on this deployment." }, 503);
   }
 
@@ -86,8 +86,8 @@ export async function onRequestPost({ request, env }) {
     return json({ error: "Malformed request body." }, 400);
   }
 
-  const messages = Array.isArray(body.messages) ? body.messages.slice(-MAX_HISTORY) : [];
-  if (!messages.length) return json({ error: "No message provided." }, 400);
+  const history = Array.isArray(body.messages) ? body.messages.slice(-MAX_HISTORY) : [];
+  if (!history.length) return json({ error: "No message provided." }, 400);
 
   const origin = new URL(request.url).origin;
   const [forecast, validation] = await Promise.all([
@@ -96,59 +96,17 @@ export async function onRequestPost({ request, env }) {
   ]);
   if (!forecast) return json({ error: "Forecast data is unavailable." }, 503);
 
-  const upstream = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      "x-api-key": env.ANTHROPIC_API_KEY,
-      "anthropic-version": "2023-06-01",
-    },
-    body: JSON.stringify({
-      model: MODEL,
-      max_tokens: MAX_TOKENS,
-      // Grounded lookup over a small payload: low effort keeps the demo
-      // responsive without costing accuracy on this task.
-      output_config: { effort: "low" },
+  try {
+    const { text, model } = await groqChat(env, {
       system: buildSystemPrompt(forecast, validation),
-      messages: messages.map(m => ({
+      messages: history.map(m => ({
         role: m.role === "assistant" ? "assistant" : "user",
         content: String(m.content || "").slice(0, 4000),
       })),
-    }),
-  });
-
-  if (!upstream.ok) {
-    const detail = await upstream.text();
-    return json({ error: `Model request failed (${upstream.status}).`, detail: detail.slice(0, 300) },
-                upstream.status === 429 ? 429 : 502);
+      maxTokens: 900,
+    });
+    return json({ reply: text || "No answer returned.", model });
+  } catch (err) {
+    return json({ error: err.message }, err.status === 429 ? 429 : 502);
   }
-
-  const data = await upstream.json();
-  if (data.stop_reason === "refusal") {
-    return json({ reply: "I can't answer that one. Try asking about the forecast itself." });
-  }
-
-  const reply = (data.content || [])
-    .filter(b => b.type === "text")
-    .map(b => b.text)
-    .join("")
-    .trim();
-
-  return json({ reply: reply || "No answer returned.", model: data.model });
-}
-
-async function fetchJSON(url) {
-  try {
-    const res = await fetch(url);
-    return res.ok ? await res.json() : null;
-  } catch {
-    return null;
-  }
-}
-
-function json(payload, status = 200) {
-  return new Response(JSON.stringify(payload), {
-    status,
-    headers: { "content-type": "application/json" },
-  });
 }
