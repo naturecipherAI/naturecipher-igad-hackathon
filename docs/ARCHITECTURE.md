@@ -1,12 +1,12 @@
 # System Architecture
 
-## Cascade Bridge: Satellite-Independent Drought Forecasting
+## Cascade Bridge: Drought Forecasts Beyond the Satellite Horizon
 
 ### The Problem
-Traditional drought early warning depends on satellite data (CHIRPS precipitation, MODIS NDVI, Land Surface Temperature). These sources have latency of days to weeks, and access requires multiple API credentials and preprocessing pipelines.
+Drought early warning depends on satellite data (CHIRPS precipitation, MODIS NDVI, Land Surface Temperature) that can only observe months that have already happened. At 1-3 month forecast leads, these observations do not exist yet.
 
 ### The Solution
-Cascade Bridge trains XGBoost regressors to synthesize satellite-derived indicators from ERA5/SEAS5 atmospheric variables alone:
+Cascade Bridge trains XGBoost regressors on 35 years of satellite history to synthesize what the satellites *would* see, given only an atmospheric weather forecast:
 
 ```
 SEAS5 Seasonal Forecast (ERA5-format variables)
@@ -26,7 +26,7 @@ SEAS5 Seasonal Forecast (ERA5-format variables)
 
 ### Regions
 Three ASAL (Arid and Semi-Arid Lands) county clusters:
-- **ASAL North**: Turkana, Marsabit, Samburu, Isiolo, Laikipia, Baringo
+- **ASAL North**: Turkana, Marsabit, Samburu, Isiolo
 - **ASAL Northeast**: Wajir, Mandera, Garissa
 - **ASAL Eastern**: Kitui, Makueni, Machakos, Tharaka-Nithi
 
