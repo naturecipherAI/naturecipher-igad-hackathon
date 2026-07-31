@@ -3,7 +3,7 @@
 ## Forecast Data Source
 ECMWF SEAS5 seasonal forecasts via Copernicus Climate Data Store (CDS).
 Dataset: `seasonal-monthly-single-levels`, originating_centre=ecmwf, system=51.
-Initialization: July 2026. Lead times: months 2-4 (August, September, October 2026).
+Initialization: July 2026. Lead times: months 2-4 (September, October, November 2026).
 Ensemble: 51 members.
 
 ## Variable Mapping
@@ -59,6 +59,6 @@ forecast. ERA5 data for those months was used after the fact. Forward forecastin
 using SEAS5 is the subject of ongoing validation.
 
 ### Forward Forecast Status
-August-October 2026 forecasts in this submission are **experimental**.
+September-November 2026 forecasts in this submission are **experimental**.
 Mini-hindcast validation (3 July initializations: 2023, 2024, 2025) is
 included in the dashboard. Full multi-year hindcast validation is in progress.

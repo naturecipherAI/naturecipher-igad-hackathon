@@ -1,43 +1,268 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-07-30T00:00:00Z",
+  "updated_at": "2026-07-31T06:02:18.476903+00:00",
   "backtest": {
     "region": "asal_north",
-    "period": { "start": "2021-01", "end": "2024-12" },
+    "period": {
+      "start": "2021-01",
+      "end": "2024-12"
+    },
     "n_samples": 48,
-    "base_rate": null,
+    "base_rate": 0.25,
     "metrics": {
-      "accuracy": 0.667,
-      "f1": 0.692,
-      "recall": 0.643,
-      "precision": null
+      "accuracy": 0.438,
+      "precision": 0.241,
+      "recall": 0.583,
+      "f1": 0.341,
+      "confusion": {
+        "tp": 7,
+        "fp": 22,
+        "fn": 5,
+        "tn": 14
+      }
     },
     "confidence_interval": {
       "metric": "accuracy",
       "level": 0.95,
-      "low": 0.534,
-      "high": 0.8
+      "low": 0.298,
+      "high": 0.578
     },
-    "baseline": {
-      "kind": "majority_class",
-      "computed": false,
-      "metrics": null
-    }
+    "baselines": {
+      "majority_class": {
+        "computed": true,
+        "predicts": 0,
+        "metrics": {
+          "accuracy": 0.75,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "confusion": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 12,
+            "tn": 36
+          }
+        }
+      },
+      "era5_only": {
+        "computed": true,
+        "metrics": {
+          "accuracy": 0.417,
+          "precision": 0.214,
+          "recall": 0.5,
+          "f1": 0.3,
+          "confusion": {
+            "tp": 6,
+            "fp": 22,
+            "fn": 6,
+            "tn": 14
+          }
+        }
+      }
+    },
+    "cascade_lift_f1_over_era5_only": 0.041
   },
+  "per_region": [
+    {
+      "region": "asal_north",
+      "period": {
+        "start": "2021-01",
+        "end": "2024-12"
+      },
+      "n_samples": 48,
+      "base_rate": 0.25,
+      "metrics": {
+        "accuracy": 0.438,
+        "precision": 0.241,
+        "recall": 0.583,
+        "f1": 0.341,
+        "confusion": {
+          "tp": 7,
+          "fp": 22,
+          "fn": 5,
+          "tn": 14
+        }
+      },
+      "confidence_interval": {
+        "metric": "accuracy",
+        "level": 0.95,
+        "low": 0.298,
+        "high": 0.578
+      },
+      "baselines": {
+        "majority_class": {
+          "computed": true,
+          "predicts": 0,
+          "metrics": {
+            "accuracy": 0.75,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "confusion": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 12,
+              "tn": 36
+            }
+          }
+        },
+        "era5_only": {
+          "computed": true,
+          "metrics": {
+            "accuracy": 0.417,
+            "precision": 0.214,
+            "recall": 0.5,
+            "f1": 0.3,
+            "confusion": {
+              "tp": 6,
+              "fp": 22,
+              "fn": 6,
+              "tn": 14
+            }
+          }
+        }
+      },
+      "cascade_lift_f1_over_era5_only": 0.041
+    },
+    {
+      "region": "asal_northeast",
+      "period": {
+        "start": "2021-01",
+        "end": "2024-12"
+      },
+      "n_samples": 48,
+      "base_rate": 0.25,
+      "metrics": {
+        "accuracy": 0.5,
+        "precision": 0.324,
+        "recall": 0.917,
+        "f1": 0.478,
+        "confusion": {
+          "tp": 11,
+          "fp": 23,
+          "fn": 1,
+          "tn": 13
+        }
+      },
+      "confidence_interval": {
+        "metric": "accuracy",
+        "level": 0.95,
+        "low": 0.359,
+        "high": 0.641
+      },
+      "baselines": {
+        "majority_class": {
+          "computed": true,
+          "predicts": 0,
+          "metrics": {
+            "accuracy": 0.75,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "confusion": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 12,
+              "tn": 36
+            }
+          }
+        },
+        "era5_only": {
+          "computed": true,
+          "metrics": {
+            "accuracy": 0.562,
+            "precision": 0.355,
+            "recall": 0.917,
+            "f1": 0.512,
+            "confusion": {
+              "tp": 11,
+              "fp": 20,
+              "fn": 1,
+              "tn": 16
+            }
+          }
+        }
+      },
+      "cascade_lift_f1_over_era5_only": -0.034
+    },
+    {
+      "region": "asal_eastern",
+      "period": {
+        "start": "2021-01",
+        "end": "2024-12"
+      },
+      "n_samples": 48,
+      "base_rate": 0.25,
+      "metrics": {
+        "accuracy": 0.625,
+        "precision": 0.393,
+        "recall": 0.917,
+        "f1": 0.55,
+        "confusion": {
+          "tp": 11,
+          "fp": 17,
+          "fn": 1,
+          "tn": 19
+        }
+      },
+      "confidence_interval": {
+        "metric": "accuracy",
+        "level": 0.95,
+        "low": 0.488,
+        "high": 0.762
+      },
+      "baselines": {
+        "majority_class": {
+          "computed": true,
+          "predicts": 0,
+          "metrics": {
+            "accuracy": 0.75,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "confusion": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 12,
+              "tn": 36
+            }
+          }
+        },
+        "era5_only": {
+          "computed": true,
+          "metrics": {
+            "accuracy": 0.625,
+            "precision": 0.4,
+            "recall": 1.0,
+            "f1": 0.571,
+            "confusion": {
+              "tp": 12,
+              "fp": 18,
+              "fn": 0,
+              "tn": 18
+            }
+          }
+        }
+      },
+      "cascade_lift_f1_over_era5_only": -0.021
+    }
+  ],
   "retrospective": {
-    "period": { "start": "2026-01", "end": "2026-03" },
+    "period": {
+      "start": "2026-01",
+      "end": "2026-03"
+    },
     "kind": "hindcast",
     "input_data": "ERA5 reanalysis, available after the fact",
     "claim": "Northeast Kenya drought emergency identified",
     "reference_event": "IPC declaration, March 2026",
     "caveat": "Retrospective. ERA5 for these months was used after the fact, not an ahead-of-time forecast."
   },
-  "hindcasts": [],
   "known_limitations": [
-    "Forward forecasts experimental, mini-hindcast validation only",
+    "Forward forecasts experimental, single July 2026 SEAS5 initialization",
     "Soil moisture uses persistence, SEAS5 provides no soil moisture layers",
-    "Single July 2026 SEAS5 initialization",
     "Three ASAL regions only",
-    "Ensemble spread discarded, forecasts carry no uncertainty band"
+    "Ensemble spread discarded, forecasts carry no uncertainty band",
+    "Decision threshold tuned on the same window the metrics are reported on"
   ]
 }
