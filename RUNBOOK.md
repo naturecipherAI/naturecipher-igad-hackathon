@@ -5,7 +5,7 @@ credentials leave it. Total time about 25 minutes, most of it the SEAS5 download
 
 Four physics bugs were fixed on branch `feat/gridded-conditions-field`. **Every
 published probability changes**, so the pipeline has to be re-run before
-submission — the numbers currently in `dashboard/forecast.json` came from the
+submission — the numbers currently in `dashboard/forecast.v2.json` came from the
 pre-fix code.
 
 ---
@@ -85,7 +85,7 @@ If the label column is not auto-detected, pass it: `--label <column>`.
 python -m inference.forecast_runner
 ```
 
-Writes `dashboard/forecast.json` and `dashboard/grid.json`. The grid step is
+Writes `dashboard/forecast.v2.json` and `dashboard/grid.json`. The grid step is
 non-fatal: if it prints `Grid field skipped`, the forecast is still valid and the
 map layer simply has no conditions overlay.
 
@@ -115,7 +115,7 @@ output to `validation/forecast_2026.json` so the smoke test is green for judges.
 
 ## 5. Send back
 
-1. `dashboard/forecast.json`
+1. `dashboard/forecast.v2.json`
 2. `dashboard/grid.json` (if produced)
 3. `dashboard/validation.json`
 4. The baseline table from step 2, pasted as text

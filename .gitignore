@@ -44,3 +44,9 @@ CODEGRAPH*.md
 
 # Local test scaffolding
 build_tmp/
+
+# Local wrangler state
+.wrangler/
+
+# Submission scaffolding, not part of the product
+docs/DEVPOST.md

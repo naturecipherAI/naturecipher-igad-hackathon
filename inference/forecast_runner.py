@@ -6,7 +6,7 @@ feeds the full 51-feature vector into the XGBoost drought model, and outputs
 monthly drought probabilities per region.
 
 Outputs, both consumed by dashboard/index.html:
-    dashboard/forecast.json  regional drought probabilities, drives the decision
+    dashboard/forecast.v2.json  regional drought probabilities, drives the decision
     dashboard/grid.json      gridded conditions field, map context only
 
 Usage:
@@ -194,17 +194,104 @@ def run_seas5_forecast() -> Dict:
     return results
 
 
-def save_forecast(results: Dict, output_path: str = "dashboard/forecast.json"):
-    """Save forecast results as JSON for the dashboard."""
+def _region_metadata() -> Dict:
+    """Region descriptions from config, so the payload is not hand-maintained."""
+    cfg_path = Path(__file__).resolve().parents[1] / "config" / "regions.yaml"
+    try:
+        import yaml
+        return yaml.safe_load(cfg_path.read_text(encoding="utf-8"))["regions"]
+    except Exception as e:
+        logger.warning(f"Could not read {cfg_path}: {e}. Emitting minimal region metadata.")
+        return {}
+
+
+def save_forecast(results: Dict, output_path: str = "dashboard/forecast.v2.json",
+                  init_date: str = None):
+    """
+    Write the dashboard payload in schema v2 (docs/DASHBOARD_SCHEMA.md).
+
+    v2 is what dashboard/index.html reads. It differs from the old flat shape in
+    three ways that matter: a `run` block so a probability can be traced to the
+    initialization and commit that produced it, regions as an array carrying their
+    own metadata, and per-forecast `lead_months` and `margin` so the client does
+    not re-derive them and drift.
+    """
+    from inference.seas5_adapter import FORECAST_GRIB_KEY, CLIMATOLOGY_GRIB_KEY
+
+    meta = _region_metadata()
+    init = init_date or datetime.utcnow().strftime("%Y-%m-01")
+    init_month = int(init.split("-")[1])
+
+    regions = []
+    for region_id, rows in results.items():
+        cfg = meta.get(region_id, {})
+        forecasts = []
+        for r in rows:
+            month, year = int(r["month"]), int(r["year"])
+            prob = float(r["drought_prob"])
+            forecasts.append({
+                "valid_year": year,
+                "valid_month": month,
+                "lead_months": (year - int(init.split("-")[0])) * 12 + month - init_month,
+                "drought_prob": round(prob, 3),
+                "prob_p10": None,
+                "prob_p90": None,
+                "ensemble_agreement": None,
+                "drought_forecast": int(prob >= THRESHOLD),
+                "signal": "drought" if prob >= THRESHOLD else "normal",
+                "margin": round(prob - THRESHOLD, 3),
+                "drivers": None,
+            })
+        regions.append({
+            "id": region_id,
+            "name": cfg.get("name", region_id),
+            "climate_zone": cfg.get("climate_zone", "arid"),
+            "counties": cfg.get("counties", []),
+            "mean_annual_precipitation_mm": cfg.get("mean_annual_precipitation_mm"),
+            "bbox": cfg.get("bbox", {}),
+            "forecasts": forecasts,
+        })
+
     output = {
+        "schema_version": "2.0",
         "generated_at": datetime.utcnow().isoformat() + "Z",
-        "threshold": THRESHOLD,
-        "regions": results,
+        "run": {
+            "init_date": init,
+            "source": "ECMWF SEAS5 seasonal-monthly-single-levels, "
+                      "originating_centre=ecmwf, system=51",
+            "ensemble_members": 51,
+            "ensemble_reduction": "mean",
+            "forecast_grib": FORECAST_GRIB_KEY,
+            "climatology_grib": CLIMATOLOGY_GRIB_KEY,
+            "code_commit": _git_commit(),
+            "drought_model": "block_3",
+            "bridge_model": "cascade_v3",
+            "status": "experimental",
+        },
+        "config": {
+            "threshold": THRESHOLD,
+            "threshold_rationale": "Recall-optimised. In anticipatory action a missed "
+                                   "drought costs more than a false alarm.",
+        },
+        "regions": regions,
     }
+
     Path(output_path).parent.mkdir(parents=True, exist_ok=True)
     with open(output_path, "w") as f:
         json.dump(output, f, indent=2)
-    print(f"\nForecast saved to {output_path}")
+    print(f"\nForecast saved to {output_path} (schema 2.0)")
+
+
+def _git_commit() -> str:
+    """Short commit of the code that produced this run, for traceability."""
+    import subprocess
+    try:
+        return subprocess.check_output(
+            ["git", "rev-parse", "--short", "HEAD"],
+            cwd=Path(__file__).resolve().parents[1],
+            stderr=subprocess.DEVNULL, text=True).strip()
+    except Exception:
+        return "unknown"
 
 
 def run_grid_field() -> Optional[Dict]:
@@ -288,8 +375,8 @@ def main():
                         help="Forecast year (default: 2026)")
     parser.add_argument("--months", nargs="+", type=int, default=[1, 2, 3],
                         help="Months to forecast (default: 1 2 3)")
-    parser.add_argument("--output", default="dashboard/forecast.json",
-                        help="Output JSON path (default: dashboard/forecast.json)")
+    parser.add_argument("--output", default="dashboard/forecast.v2.json",
+                        help="Output JSON path (default: dashboard/forecast.v2.json)")
     parser.add_argument("--grid-output", default="dashboard/grid.json",
                         help="Gridded conditions field path (default: dashboard/grid.json)")
     parser.add_argument("--no-grid", action="store_true",
