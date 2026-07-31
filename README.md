@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="docs/assets/logo-teal.svg" width="86" alt="Cascade Bridge">
+
 # Cascade Bridge
 
 **Drought forecasts for months no satellite has seen yet.**
@@ -88,6 +90,14 @@ An early-warning system that overstates its confidence is worse than none.
 ## What the dashboard does
 
 **[naturecipher-drought.pages.dev](https://naturecipher-drought.pages.dev)**
+
+<table>
+<tr>
+<td width="33%"><img src="docs/assets/demo-months.gif" alt="Scrubbing the forecast month"><br><sub><b>Scrub the month.</b> October flags ASAL North.</sub></td>
+<td width="33%"><img src="docs/assets/demo-threshold.gif" alt="Dragging the decision threshold"><br><sub><b>Move the threshold.</b> The decision changes; the forecast does not.</sub></td>
+<td width="33%"><img src="docs/assets/demo-bulletin.gif" alt="Asking a question and generating a bulletin"><br><sub><b>Ask, then publish.</b> Grounded answer, then a PDF bulletin.</sub></td>
+</tr>
+</table>
 
 - **Scrub the month** — watch the map change across the three forecast months
 - **Drag the decision threshold** — signals appear and disappear. Changing the
