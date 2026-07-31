@@ -6,22 +6,32 @@
 
 ## What it does
 
-Cascade Bridge is a satellite-independent drought early warning system for
-Kenya's Arid and Semi-Arid Lands (ASALs). XGBoost cascade bridge regressors
-synthesize CHIRPS precipitation, MODIS NDVI, and Land Surface Temperature
-proxies from ERA5/SEAS5 atmospheric inputs alone, enabling drought probability
-forecasts at 1-3 month leads without satellite data latency.
+Cascade Bridge forecasts drought probability 1-3 months ahead for Kenya's Arid
+and Semi-Arid Lands, using no satellite data at forecast time.
 
-**The problem it solves:** Traditional drought early warning depends on satellite
-data with days-to-weeks latency and multiple API dependencies. Cascade Bridge
-eliminates those dependencies — one atmospheric data source drives the entire
-51-feature prediction pipeline.
+**The problem it solves:** satellites cannot photograph October in July. A
+drought classifier built on CHIRPS rainfall and MODIS vegetation cannot forecast,
+because those observations only exist for months that have already happened. This
+is not a latency problem — it is that the future has not been observed.
+
+Cascade Bridge makes those inputs exist. Chained XGBoost regressors synthesise the
+CHIRPS, NDVI and LST indicators from ECMWF SEAS5 atmospheric forecasts, so the
+full 51-feature classifier can run at a 3-month lead. The satellite record is not
+discarded; it is distilled into the bridges at training time.
+
+**Where it sits:** alongside ICPAC's Drought Watch and HUSIKA, not against them.
+Those systems monitor current conditions well. This adds a forecast layer.
 
 ## Live Dashboard
-🌍 **[View forecast →](https://placeholder-update-before-submission.com)**
 
-Issued from July 2026 SEAS5 initialization. Covers August–October 2026
-for three ASAL county clusters. Labeled experimental pending full hindcast validation.
+**https://naturecipher-drought.pages.dev**
+
+Issued from the July 2026 SEAS5 initialization, covering September-November 2026
+across three ASAL county clusters. Interactive: scrub the valid month, drag the
+decision threshold, click a region to filter. Changing the threshold changes the
+decision, never the forecast.
+
+Labelled experimental pending full hindcast validation.
 
 ## Architecture
 
@@ -37,14 +47,22 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for full detail.
 
 ## Validation
 
-| Test | Result |
-|------|--------|
-| Cascade backtest 2021-2024 (asal_north) | Accuracy 0.667, F1 0.692 |
-| Retrospective Jan-Mar 2026 (hindcast) | Northeast emergency correctly identified |
-| Forward Aug-Oct 2026 | Experimental — mini-hindcast in dashboard |
+Run `python scripts/evaluate_baselines.py` to reproduce. It publishes the drought
+base rate and two baselines alongside the cascade, because an accuracy figure
+without them is not evidence of skill:
 
-**Note:** The Jan-Mar 2026 result is a retrospective hindcast using ERA5 reanalysis
-data available after the fact, not an ahead-of-time operational forecast.
+| | What it tests |
+|---|---|
+| **Base rate** | 2021-2024 spans the worst Horn of Africa drought in 40 years, so drought may be the majority class. Without this number, accuracy is unreadable |
+| **Majority-class baseline** | The floor. Always predict the commoner label |
+| **ERA5-only baseline** | The same classifier without the bridges. This tests the cascade's actual thesis — the bridges are deterministic functions of the ERA5 inputs, so they cannot add information that was not already there. If the lift is zero, the contribution is forecastability, not accuracy |
+
+Current numbers are written to `dashboard/validation.json` and rendered in the
+dashboard with a 95% confidence interval.
+
+**The Jan-Mar 2026 result is a retrospective hindcast** on ERA5 reanalysis
+available after the fact — not an ahead-of-time operational forecast. The
+distinction matters and we keep it explicit.
 
 ## Quickstart
 
@@ -82,11 +100,17 @@ see [docs/DATA_ACKNOWLEDGMENTS.md](docs/DATA_ACKNOWLEDGMENTS.md).
 
 ## Limitations
 
-- Retrospective validation only (Jan-Mar 2026 hindcast, not real-time forecast)
-- Forward forecasts experimental — mini-hindcast validation only (3 seasons)
-- Soil moisture uses persistence assumption (SEAS5 does not provide SM layers)
-- Single July 2026 SEAS5 initialization
-- Three ASAL regions only (agri-region models not included in this submission)
+- Retrospective validation only; the Jan-Mar 2026 result is a hindcast
+- Forward forecasts experimental, single July 2026 SEAS5 initialization
+- Soil moisture uses a persistence assumption (SEAS5 provides no SM layers);
+  justified by 4-8 week autocorrelation in semi-arid soils (Koster et al. 2004)
+- Three ASAL regions, eleven counties
+- Ensemble spread is discarded: SEAS5 ships 51 members, the pipeline averages them,
+  so every probability is a point estimate with no uncertainty band
+- The 0.25 decision threshold was tuned on the same window the metrics report on
+- The conditions grid is at native SEAS5 resolution (~100 km) and is deliberately
+  not downscaled; there is no per-pixel drought probability, because the bridges
+  were fitted on regional means and no pixel-level ground truth exists
 
 ## Team
 
