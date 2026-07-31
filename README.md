@@ -1,131 +1,174 @@
-# Cascade Bridge: Satellite-Independent Drought Early Warning
+<div align="center">
 
-**IGAD Hackathon 2026 — NatureCipher AI**
+# Cascade Bridge
+
+**Drought forecasts for months no satellite has seen yet.**
+
+by Nature Cipher · IGAD Hackathon 2026
+
+[Live dashboard](https://naturecipher-drought.pages.dev) · [Methods](docs/METHODS.md) · [Architecture](docs/ARCHITECTURE.md) · [Data schemas](docs/DASHBOARD_SCHEMA.md)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-## What it does
+</div>
 
-Cascade Bridge forecasts drought probability 1-3 months ahead for Kenya's Arid
-and Semi-Arid Lands, using no satellite data at forecast time.
+---
 
-**The problem it solves:** satellites cannot photograph October in July. A
-drought classifier built on CHIRPS rainfall and MODIS vegetation cannot forecast,
-because those observations only exist for months that have already happened. This
-is not a latency problem — it is that the future has not been observed.
+## The problem in one sentence
 
-Cascade Bridge makes those inputs exist. Chained XGBoost regressors synthesise the
-CHIRPS, NDVI and LST indicators from ECMWF SEAS5 atmospheric forecasts, so the
-full 51-feature classifier can run at a 3-month lead. The satellite record is not
-discarded; it is distilled into the bridges at training time.
+You cannot photograph October in July.
 
-**Where it sits:** alongside ICPAC's Drought Watch and HUSIKA, not against them.
-Those systems monitor current conditions well. This adds a forecast layer.
+Drought early-warning systems run on satellite data — rainfall from CHIRPS,
+vegetation greenness from MODIS. Those pictures are excellent, and they only
+exist for months that have already happened. So a drought model built on them
+tells you what *is* happening, never what *will*.
 
-## Live Dashboard
+That gap is where people get hurt. By the time a failed season is visible from
+orbit, the livestock are already thin, the water points are already dry, and the
+money that could have pre-positioned fodder is three months late.
 
-**https://naturecipher-drought.pages.dev**
+## What we built
 
-Issued from the July 2026 SEAS5 initialization, covering September-November 2026
-across three ASAL county clusters. Interactive: scrub the valid month, drag the
-decision threshold, click a region to filter. Changing the threshold changes the
-decision, never the forecast.
+**Four machine-learning models that produce the satellite data before the
+satellite can.**
 
-Labelled experimental pending full hindcast validation.
+That is the product. Not the dashboard — the models.
 
-## Architecture
+We trained XGBoost regressors on 35 years of history to learn what the satellites
+*would* see, given only the atmosphere. Feed them a seasonal weather forecast and
+they generate the rainfall, greenness and land-temperature layers a drought
+classifier needs — for months that have not happened yet.
 
 ```
-SEAS5 Seasonal Forecast
-  └── Bridge 1 → CHIRPS proxy
-  └── Bridge 2 → NDVI proxy
-  └── Bridge 3 → LST proxy
-        └── 51 features → XGBoost → Drought probability
+Weather forecast (ECMWF SEAS5, 51 ensemble members, atmosphere only)
+        |
+        |-- Model 1 --> rainfall          (learned from CHIRPS, 1990-2024)
+        |-- Model 2 --> vegetation        (learned from MODIS NDVI)
+        |-- Model 3 --> land temperature  (learned from MODIS LST)
+        |
+        '-- 51 features --> Model 4: drought classifier --> probability
 ```
 
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for full detail.
+Each model feeds the next, in the order the physics runs: rain drives greenness,
+greenness moderates ground heat. That chaining is what the name refers to.
 
-## Validation
+**The satellite record is not thrown away — it moves.** From inference time,
+where it is impossible, to training time, where it is abundant.
 
-Run `python scripts/evaluate_baselines.py` to reproduce. It publishes the drought
-base rate and two baselines alongside the cascade, because an accuracy figure
-without them is not evidence of skill:
+## Why the models are the contribution
 
-| | What it tests |
+The dashboard is a window onto the models. The models are what transfers:
+
+| | |
 |---|---|
-| **Base rate** | 2021-2024 spans the worst Horn of Africa drought in 40 years, so drought may be the majority class. Without this number, accuracy is unreadable |
-| **Majority-class baseline** | The floor. Always predict the commoner label |
-| **ERA5-only baseline** | The same classifier without the bridges. This tests the cascade's actual thesis — the bridges are deterministic functions of the ERA5 inputs, so they cannot add information that was not already there. If the lift is zero, the contribution is forecastability, not accuracy |
+| **Reusable** | The bridges are independent of the drought classifier. Anything needing rainfall or NDVI at a forecast horizon can use them |
+| **Portable** | Trained per region on public data. Nothing about the method is Kenya-specific |
+| **Cheap** | CPU inference. A full forecast for eleven counties runs in seconds |
+| **Falsifiable** | We publish the baseline that could disprove them. See below |
 
-Current numbers are written to `dashboard/validation.json` and rendered in the
-dashboard with a 95% confidence interval.
+## We publish the number that could sink us
 
-**The Jan-Mar 2026 result is a retrospective hindcast** on ERA5 reanalysis
-available after the fact — not an ahead-of-time operational forecast. The
-distinction matters and we keep it explicit.
+`python scripts/evaluate_baselines.py` prints three things:
 
-## Quickstart
+1. **The drought base rate.** 2021–2024 covers the worst Horn of Africa drought in
+   forty years. If most months are drought months, a model that always answers
+   "drought" scores well while knowing nothing. Without this number, accuracy is
+   unreadable.
+2. **A majority-class baseline.** The floor any model must clear.
+3. **An ERA5-only baseline.** The same classifier *without* the bridges.
+
+The third is the honest test. The bridges are built from the atmospheric inputs,
+so they cannot conjure information those inputs did not already contain. If the
+cascade does not beat ERA5-only, the contribution is *forecastability* — running
+at a lead time where nothing else can — not accuracy. We publish it either way,
+because a panel of modellers will run the comparison themselves.
+
+An early-warning system that overstates its confidence is worse than none.
+
+## What the dashboard does
+
+**[naturecipher-drought.pages.dev](https://naturecipher-drought.pages.dev)**
+
+- **Scrub the month** — watch the map change across the three forecast months
+- **Drag the decision threshold** — signals appear and disappear. Changing the
+  threshold changes the *decision*, never the forecast
+- **Hover any county** — probability, region, coverage
+- **Ask a question** — an assistant grounded strictly in this issue's data,
+  instructed to refuse rather than estimate a number the data does not contain
+- **Generate a bulletin** — the situation report a county drought committee would
+  circulate, exported to PDF. The model writes the prose; every number in the
+  table is rendered from the forecast file, so a mis-stated figure cannot reach
+  the data
+
+## Who it is for
+
+| User | Decision it supports |
+|---|---|
+| County drought committees — Turkana, Marsabit, Samburu, Isiolo, Wajir, Mandera, Garissa, Kitui, Makueni, Machakos, Tharaka-Nithi | Pre-position water trucking and fodder, or hold |
+| ICPAC and national met agencies | A forecast layer beside Drought Watch and HUSIKA, which monitor the present |
+| Anticipatory-action funds | Release money on a trigger, at a threshold they choose |
+
+The threshold is 0.25, not 0.5. That is a deliberate statement that **missing a
+drought costs about three times what a false alarm costs**. A county with
+pre-positioned funds can act at 0.15; a treasury releasing a large disbursement
+may want 0.40. Same forecast, different risk tolerance, one slider.
+
+## Repository
+
+```
+inference/                  the models and the pipeline  <- the product
+  cascade_bridge.py           the four chained models
+  seas5_adapter.py            weather forecast -> model inputs
+  forecast_runner.py          end to end, writes the dashboard payloads
+  data_loader.py              model + history storage
+scripts/
+  evaluate_baselines.py       the number that could disprove us
+  build_counties_geojson.py   county boundaries from geoBoundaries
+dashboard/                  static site, no build step
+functions/api/              chat + bulletin (Cloudflare Pages Functions)
+docs/                       methods, architecture, schemas, story
+RUNBOOK.md                  how to regenerate every published number
+```
+
+## Running it
 
 ```bash
-git clone https://github.com/naturecipherai/naturecipher-igad-hackathon
-cd naturecipher-igad-hackathon
 pip install -r requirements.txt
+cp credentials.env .env                 # models + history live in private S3
+
+python scripts/evaluate_baselines.py    # baselines first
+python -m inference.forecast_runner     # writes dashboard/forecast.json
 ```
 
-**To run the inference pipeline**, request AWS credentials:
-📧 **kelvin@naturecipherai.com**
+Models and processed data sit in a private S3 bucket. Request read-only access
+from **kelvin@naturecipherai.com**. Every dataset is public at its original
+source — see [`docs/DATA_ACKNOWLEDGMENTS.md`](docs/DATA_ACKNOWLEDGMENTS.md).
 
-Once received:
-```bash
-cp credentials.env .env
-python -m inference.smoke_test
-```
+## Honest limits
 
-## Tech Stack
+- Forward forecasts are **experimental**. One SEAS5 initialization, not a
+  multi-year hindcast
+- The January–March 2026 result is a **hindcast** — it used reanalysis available
+  after the fact. Not evidence of ahead-of-time skill, and not presented as such
+- SEAS5 ships 51 ensemble members; we average them. **Every probability is a
+  point estimate with no error bar.** Carrying the spread is the next build
+- Soil moisture uses persistence, because SEAS5 does not provide it. Disclosed
+  with its justification in [`docs/METHODS.md`](docs/METHODS.md)
+- The decision threshold was tuned on the same window the metrics report on
+- Eleven counties. The conditions grid is at native ~100 km resolution and is
+  deliberately **not** downscaled: there is no per-pixel drought probability,
+  because the models were fitted on regional means and no pixel-level ground
+  truth exists to validate one
 
-- **ML:** XGBoost 2.0.3 (CPU inference)
-- **Forecast data:** ECMWF SEAS5 via Copernicus CDS (`seasonal-monthly-single-levels`)
-- **Historical data:** ERA5 reanalysis, CHIRPS, MODIS NDVI/LST
-- **Runtime:** Python 3.11, xarray, cfgrib, pandas, scipy, boto3
-- **Infrastructure:** AWS S3 (model + data store), AWS EC2 (monthly forecast run)
-- **Dashboard:** Vanilla HTML/JS/CSS, static hosting
+## Stack
 
-## Data & Model Access
-
-Models and processed data are stored in a private S3 bucket.
-Contact kelvin@naturecipherai.com to request read-only credentials.
-
-All datasets are publicly available at their original sources —
-see [docs/DATA_ACKNOWLEDGMENTS.md](docs/DATA_ACKNOWLEDGMENTS.md).
-
-## Limitations
-
-- Retrospective validation only; the Jan-Mar 2026 result is a hindcast
-- Forward forecasts experimental, single July 2026 SEAS5 initialization
-- Soil moisture uses a persistence assumption (SEAS5 provides no SM layers);
-  justified by 4-8 week autocorrelation in semi-arid soils (Koster et al. 2004)
-- Three ASAL regions, eleven counties
-- Ensemble spread is discarded: SEAS5 ships 51 members, the pipeline averages them,
-  so every probability is a point estimate with no uncertainty band
-- The 0.25 decision threshold was tuned on the same window the metrics report on
-- The conditions grid is at native SEAS5 resolution (~100 km) and is deliberately
-  not downscaled; there is no per-pixel drought probability, because the bridges
-  were fitted on regional means and no pixel-level ground truth exists
+Python 3.11 · XGBoost 2.0.3 · xarray + cfgrib · pandas · scipy · boto3 ·
+AWS S3/EC2 · MapLibre GL · Cloudflare Pages + Pages Functions · Groq
 
 ## Team
 
-**NatureCipher AI** — Nairobi, Kenya
-Kelvin — Founder & CEO
-[naturecipherai.com](https://naturecipherai.com)
+**Nature Cipher** — Nairobi, Kenya. NVIDIA Inception · 500 Global Pre-Acceleration.
 
-NVIDIA Inception Program member | 500 Global Pre-Acceleration
+## Licence
 
-## License
-
-Code: MIT License
-See [LICENSE](LICENSE) for details.
-
-## Acknowledgments
-
-See [docs/DATA_ACKNOWLEDGMENTS.md](docs/DATA_ACKNOWLEDGMENTS.md) for full
-dataset citations as required by hackathon rules.
+Code MIT. Data belongs to its original providers, cited in full.

@@ -656,6 +656,7 @@ function paintMap(){
     const prob=rec?rec.prob:null;
     return {...f,properties:{...f.properties,
       prob, region_name:rec?rec.name:null,
+      prob_label: prob==null ? "" : prob.toFixed(2),
       sev:sevOf(prob,state.threshold),
       dim:(state.region&&rid!==state.region)?1:0}};
   })};
@@ -703,9 +704,40 @@ function initMap(){
     map.addSource("counties",{type:"geojson",data:state.counties});
     map.addLayer({id:"counties-fill",type:"fill",source:"counties",paint:{"fill-color":"#888","fill-opacity":0.6}});
     map.addLayer({id:"counties-line",type:"line",source:"counties",paint:{"line-color":"#999","line-width":0.6}});
+    // Covered counties carry a heavier edge so the model's footprint reads as a
+    // shape at a glance, rather than having to be inferred from fill alone.
+    map.addLayer({id:"counties-edge",type:"line",source:"counties",
+      filter:["!=",["get","region_id"],null],
+      paint:{"line-color":cssVar("--ink"),"line-width":1.1,"line-opacity":0.5}});
+    map.addLayer({id:"counties-hover",type:"line",source:"counties",
+      filter:["==",["get","county"],""],
+      paint:{"line-color":cssVar("--accent"),"line-width":2.2}});
+    map.addLayer({id:"counties-label",type:"symbol",source:"counties",
+      filter:["!=",["get","region_id"],null],
+      layout:{"text-field":["concat",["get","county"],"\n",["get","prob_label"]],
+              "text-size":10.5,"text-line-height":1.15,"text-allow-overlap":false,
+              "text-padding":3},
+      paint:{"text-color":cssVar("--ink"),"text-halo-color":cssVar("--surface"),
+             "text-halo-width":1.6}});
+
+    // Frame the covered counties instead of a fixed centre, so the map still
+    // fits when regions are added or the panel is resized.
+    const bb = state.counties.features
+      .filter(f => f.properties.region_id)
+      .reduce((acc, f) => {
+        const walk = c => Array.isArray(c[0]) ? c.forEach(walk)
+          : (acc[0]=Math.min(acc[0],c[0]), acc[1]=Math.min(acc[1],c[1]),
+             acc[2]=Math.max(acc[2],c[0]), acc[3]=Math.max(acc[3],c[1]));
+        walk(f.geometry.coordinates);
+        return acc;
+      }, [180,90,-180,-90]);
+    if(bb[0] < bb[2]) map.fitBounds([[bb[0],bb[1]],[bb[2],bb[3]]],{padding:44,duration:0});
 
     const popup=new maplibregl.Popup({closeButton:false,closeOnClick:false});
     map.on("mousemove","counties-fill",e=>{
+      if(map.getLayer("counties-hover")){
+        map.setFilter("counties-hover",["==",["get","county"],e.features[0].properties.county]);
+      }
       map.getCanvas().style.cursor="pointer";
       const p=e.features[0].properties;
       const body=p.region_name
@@ -713,7 +745,10 @@ function initMap(){
         : `${p.county}<br>no model coverage`;
       popup.setLngLat(e.lngLat).setHTML(body).addTo(map);
     });
-    map.on("mouseleave","counties-fill",()=>{ map.getCanvas().style.cursor=""; popup.remove(); });
+    map.on("mouseleave","counties-fill",()=>{
+      map.getCanvas().style.cursor=""; popup.remove();
+      if(map.getLayer("counties-hover")) map.setFilter("counties-hover",["==",["get","county"],""]);
+    });
     map.on("click","counties-fill",e=>{
       const rid=e.features[0].properties.region_id;
       if(rid){ state.region = state.region===rid ? null : rid; render(); }
