@@ -1,0 +1,1959 @@
+{
+  "schema_version": "2.0",
+  "kind": "conditions_field",
+  "resolution": {
+    "lat_step_deg": 1.0,
+    "lon_step_deg": 1.0,
+    "note": "Native SEAS5 grid. Not downscaled. Do not render finer than this spacing."
+  },
+  "source_grib": "seas5/seas5_2026_07_forecast.grib",
+  "baseline": "SEAS5 1993-2016 hindcast climatology, per cell",
+  "variables": [
+    "precip_mm",
+    "precip_clim_mm",
+    "precip_anomaly_mm",
+    "precip_pct_of_normal",
+    "temp_2m_c",
+    "temp_anomaly_c"
+  ],
+  "months": [
+    {
+      "valid_year": 2026,
+      "valid_month": 9,
+      "cells": [
+        {
+          "lat": -2.5,
+          "lon": 34.5,
+          "precip_mm": 1.553,
+          "precip_clim_mm": 5.811,
+          "precip_anomaly_mm": -4.257,
+          "precip_pct_of_normal": 26.73,
+          "temp_2m_c": 23.844,
+          "temp_anomaly_c": 1.571
+        },
+        {
+          "lat": -2.5,
+          "lon": 35.5,
+          "precip_mm": 1.046,
+          "precip_clim_mm": 3.686,
+          "precip_anomaly_mm": -2.64,
+          "precip_pct_of_normal": 28.382,
+          "temp_2m_c": 20.86,
+          "temp_anomaly_c": 0.799
+        },
+        {
+          "lat": -2.5,
+          "lon": 36.5,
+          "precip_mm": 1.238,
+          "precip_clim_mm": 2.427,
+          "precip_anomaly_mm": -1.189,
+          "precip_pct_of_normal": 51.01,
+          "temp_2m_c": 22.518,
+          "temp_anomaly_c": 0.903
+        },
+        {
+          "lat": -2.5,
+          "lon": 37.5,
+          "precip_mm": 3.188,
+          "precip_clim_mm": 5.022,
+          "precip_anomaly_mm": -1.834,
+          "precip_pct_of_normal": 63.485,
+          "temp_2m_c": 21.191,
+          "temp_anomaly_c": 0.821
+        },
+        {
+          "lat": -2.5,
+          "lon": 38.5,
+          "precip_mm": 3.98,
+          "precip_clim_mm": 5.199,
+          "precip_anomaly_mm": -1.219,
+          "precip_pct_of_normal": 76.55,
+          "temp_2m_c": 24.491,
+          "temp_anomaly_c": 0.931
+        },
+        {
+          "lat": -2.5,
+          "lon": 39.5,
+          "precip_mm": 12.902,
+          "precip_clim_mm": 16.882,
+          "precip_anomaly_mm": -3.98,
+          "precip_pct_of_normal": 76.427,
+          "temp_2m_c": 25.464,
+          "temp_anomaly_c": 1.073
+        },
+        {
+          "lat": -2.5,
+          "lon": 40.5,
+          "precip_mm": 55.579,
+          "precip_clim_mm": 54.932,
+          "precip_anomaly_mm": 0.647,
+          "precip_pct_of_normal": 101.177,
+          "temp_2m_c": 25.379,
+          "temp_anomaly_c": 0.887
+        },
+        {
+          "lat": -2.5,
+          "lon": 41.5,
+          "precip_mm": 57.784,
+          "precip_clim_mm": 47.998,
+          "precip_anomaly_mm": 9.786,
+          "precip_pct_of_normal": 120.388,
+          "temp_2m_c": 25.507,
+          "temp_anomaly_c": 0.733
+        },
+        {
+          "lat": -1.5,
+          "lon": 34.5,
+          "precip_mm": 7.41,
+          "precip_clim_mm": 22.708,
+          "precip_anomaly_mm": -15.298,
+          "precip_pct_of_normal": 32.632,
+          "temp_2m_c": 23.532,
+          "temp_anomaly_c": 2.06
+        },
+        {
+          "lat": -1.5,
+          "lon": 35.5,
+          "precip_mm": 4.546,
+          "precip_clim_mm": 15.379,
+          "precip_anomaly_mm": -10.833,
+          "precip_pct_of_normal": 29.562,
+          "temp_2m_c": 20.074,
+          "temp_anomaly_c": 1.505
+        },
+        {
+          "lat": -1.5,
+          "lon": 36.5,
+          "precip_mm": 2.49,
+          "precip_clim_mm": 10.088,
+          "precip_anomaly_mm": -7.597,
+          "precip_pct_of_normal": 24.687,
+          "temp_2m_c": 20.804,
+          "temp_anomaly_c": 1.024
+        },
+        {
+          "lat": -1.5,
+          "lon": 37.5,
+          "precip_mm": 4.715,
+          "precip_clim_mm": 9.088,
+          "precip_anomaly_mm": -4.373,
+          "precip_pct_of_normal": 51.882,
+          "temp_2m_c": 20.799,
+          "temp_anomaly_c": 0.874
+        },
+        {
+          "lat": -1.5,
+          "lon": 38.5,
+          "precip_mm": 5.07,
+          "precip_clim_mm": 5.727,
+          "precip_anomaly_mm": -0.656,
+          "precip_pct_of_normal": 88.542,
+          "temp_2m_c": 24.473,
+          "temp_anomaly_c": 0.927
+        },
+        {
+          "lat": -1.5,
+          "lon": 39.5,
+          "precip_mm": 9.528,
+          "precip_clim_mm": 10.657,
+          "precip_anomaly_mm": -1.129,
+          "precip_pct_of_normal": 89.408,
+          "temp_2m_c": 26.129,
+          "temp_anomaly_c": 0.97
+        },
+        {
+          "lat": -1.5,
+          "lon": 40.5,
+          "precip_mm": 24.182,
+          "precip_clim_mm": 28.669,
+          "precip_anomaly_mm": -4.487,
+          "precip_pct_of_normal": 84.349,
+          "temp_2m_c": 26.093,
+          "temp_anomaly_c": 1.228
+        },
+        {
+          "lat": -1.5,
+          "lon": 41.5,
+          "precip_mm": 48.456,
+          "precip_clim_mm": 48.153,
+          "precip_anomaly_mm": 0.303,
+          "precip_pct_of_normal": 100.63,
+          "temp_2m_c": 25.711,
+          "temp_anomaly_c": 0.988
+        },
+        {
+          "lat": -0.5,
+          "lon": 34.5,
+          "precip_mm": 17.205,
+          "precip_clim_mm": 54.238,
+          "precip_anomaly_mm": -37.033,
+          "precip_pct_of_normal": 31.721,
+          "temp_2m_c": 23.131,
+          "temp_anomaly_c": 1.872
+        },
+        {
+          "lat": -0.5,
+          "lon": 35.5,
+          "precip_mm": 32.32,
+          "precip_clim_mm": 81.408,
+          "precip_anomaly_mm": -49.088,
+          "precip_pct_of_normal": 39.701,
+          "temp_2m_c": 17.589,
+          "temp_anomaly_c": 1.435
+        },
+        {
+          "lat": -0.5,
+          "lon": 36.5,
+          "precip_mm": 41.225,
+          "precip_clim_mm": 87.761,
+          "precip_anomaly_mm": -46.536,
+          "precip_pct_of_normal": 46.974,
+          "temp_2m_c": 15.448,
+          "temp_anomaly_c": 0.919
+        },
+        {
+          "lat": -0.5,
+          "lon": 37.5,
+          "precip_mm": 21.069,
+          "precip_clim_mm": 44.344,
+          "precip_anomaly_mm": -23.275,
+          "precip_pct_of_normal": 47.513,
+          "temp_2m_c": 19.298,
+          "temp_anomaly_c": 0.745
+        },
+        {
+          "lat": -0.5,
+          "lon": 38.5,
+          "precip_mm": 2.847,
+          "precip_clim_mm": 3.518,
+          "precip_anomaly_mm": -0.671,
+          "precip_pct_of_normal": 80.928,
+          "temp_2m_c": 25.655,
+          "temp_anomaly_c": 0.899
+        },
+        {
+          "lat": -0.5,
+          "lon": 39.5,
+          "precip_mm": 7.185,
+          "precip_clim_mm": 7.115,
+          "precip_anomaly_mm": 0.07,
+          "precip_pct_of_normal": 100.988,
+          "temp_2m_c": 26.438,
+          "temp_anomaly_c": 0.968
+        },
+        {
+          "lat": -0.5,
+          "lon": 40.5,
+          "precip_mm": 13.804,
+          "precip_clim_mm": 14.84,
+          "precip_anomaly_mm": -1.036,
+          "precip_pct_of_normal": 93.018,
+          "temp_2m_c": 26.544,
+          "temp_anomaly_c": 1.083
+        },
+        {
+          "lat": -0.5,
+          "lon": 41.5,
+          "precip_mm": 19.17,
+          "precip_clim_mm": 23.055,
+          "precip_anomaly_mm": -3.885,
+          "precip_pct_of_normal": 83.15,
+          "temp_2m_c": 26.742,
+          "temp_anomaly_c": 1.276
+        },
+        {
+          "lat": 0.5,
+          "lon": 34.5,
+          "precip_mm": 48.901,
+          "precip_clim_mm": 126.42,
+          "precip_anomaly_mm": -77.518,
+          "precip_pct_of_normal": 38.682,
+          "temp_2m_c": 21.21,
+          "temp_anomaly_c": 1.821
+        },
+        {
+          "lat": 0.5,
+          "lon": 35.5,
+          "precip_mm": 61.794,
+          "precip_clim_mm": 183.203,
+          "precip_anomaly_mm": -121.408,
+          "precip_pct_of_normal": 33.73,
+          "temp_2m_c": 19.03,
+          "temp_anomaly_c": 2.08
+        },
+        {
+          "lat": 0.5,
+          "lon": 36.5,
+          "precip_mm": 24.746,
+          "precip_clim_mm": 108.841,
+          "precip_anomaly_mm": -84.095,
+          "precip_pct_of_normal": 22.736,
+          "temp_2m_c": 21.085,
+          "temp_anomaly_c": 2.41
+        },
+        {
+          "lat": 0.5,
+          "lon": 37.5,
+          "precip_mm": 10.875,
+          "precip_clim_mm": 46.832,
+          "precip_anomaly_mm": -35.957,
+          "precip_pct_of_normal": 23.221,
+          "temp_2m_c": 22.522,
+          "temp_anomaly_c": 1.267
+        },
+        {
+          "lat": 0.5,
+          "lon": 38.5,
+          "precip_mm": 1.412,
+          "precip_clim_mm": 2.518,
+          "precip_anomaly_mm": -1.106,
+          "precip_pct_of_normal": 56.087,
+          "temp_2m_c": 26.667,
+          "temp_anomaly_c": 0.883
+        },
+        {
+          "lat": 0.5,
+          "lon": 39.5,
+          "precip_mm": 3.947,
+          "precip_clim_mm": 4.039,
+          "precip_anomaly_mm": -0.092,
+          "precip_pct_of_normal": 97.718,
+          "temp_2m_c": 27.269,
+          "temp_anomaly_c": 0.987
+        },
+        {
+          "lat": 0.5,
+          "lon": 40.5,
+          "precip_mm": 9.498,
+          "precip_clim_mm": 8.954,
+          "precip_anomaly_mm": 0.544,
+          "precip_pct_of_normal": 106.073,
+          "temp_2m_c": 27.551,
+          "temp_anomaly_c": 1.04
+        },
+        {
+          "lat": 0.5,
+          "lon": 41.5,
+          "precip_mm": 11.06,
+          "precip_clim_mm": 12.68,
+          "precip_anomaly_mm": -1.62,
+          "precip_pct_of_normal": 87.225,
+          "temp_2m_c": 27.757,
+          "temp_anomaly_c": 1.156
+        },
+        {
+          "lat": 1.5,
+          "lon": 34.5,
+          "precip_mm": 45.409,
+          "precip_clim_mm": 173.038,
+          "precip_anomaly_mm": -127.629,
+          "precip_pct_of_normal": 26.242,
+          "temp_2m_c": 21.857,
+          "temp_anomaly_c": 2.662
+        },
+        {
+          "lat": 1.5,
+          "lon": 35.5,
+          "precip_mm": 40.536,
+          "precip_clim_mm": 180.529,
+          "precip_anomaly_mm": -139.992,
+          "precip_pct_of_normal": 22.454,
+          "temp_2m_c": 23.082,
+          "temp_anomaly_c": 3.083
+        },
+        {
+          "lat": 1.5,
+          "lon": 36.5,
+          "precip_mm": 9.635,
+          "precip_clim_mm": 61.197,
+          "precip_anomaly_mm": -51.562,
+          "precip_pct_of_normal": 15.744,
+          "temp_2m_c": 25.918,
+          "temp_anomaly_c": 2.721
+        },
+        {
+          "lat": 1.5,
+          "lon": 37.5,
+          "precip_mm": 2.564,
+          "precip_clim_mm": 15.368,
+          "precip_anomaly_mm": -12.804,
+          "precip_pct_of_normal": 16.683,
+          "temp_2m_c": 25.868,
+          "temp_anomaly_c": 1.106
+        },
+        {
+          "lat": 1.5,
+          "lon": 38.5,
+          "precip_mm": 0.648,
+          "precip_clim_mm": 1.918,
+          "precip_anomaly_mm": -1.271,
+          "precip_pct_of_normal": 33.756,
+          "temp_2m_c": 28.172,
+          "temp_anomaly_c": 0.927
+        },
+        {
+          "lat": 1.5,
+          "lon": 39.5,
+          "precip_mm": 4.54,
+          "precip_clim_mm": 4.628,
+          "precip_anomaly_mm": -0.088,
+          "precip_pct_of_normal": 98.097,
+          "temp_2m_c": 27.605,
+          "temp_anomaly_c": 1.03
+        },
+        {
+          "lat": 1.5,
+          "lon": 40.5,
+          "precip_mm": 9.289,
+          "precip_clim_mm": 9.582,
+          "precip_anomaly_mm": -0.293,
+          "precip_pct_of_normal": 96.939,
+          "temp_2m_c": 27.73,
+          "temp_anomaly_c": 1.096
+        },
+        {
+          "lat": 1.5,
+          "lon": 41.5,
+          "precip_mm": 10.514,
+          "precip_clim_mm": 12.728,
+          "precip_anomaly_mm": -2.214,
+          "precip_pct_of_normal": 82.604,
+          "temp_2m_c": 27.928,
+          "temp_anomaly_c": 1.133
+        },
+        {
+          "lat": 2.5,
+          "lon": 34.5,
+          "precip_mm": 22.996,
+          "precip_clim_mm": 105.427,
+          "precip_anomaly_mm": -82.431,
+          "precip_pct_of_normal": 21.812,
+          "temp_2m_c": 24.481,
+          "temp_anomaly_c": 3.355
+        },
+        {
+          "lat": 2.5,
+          "lon": 35.5,
+          "precip_mm": 8.268,
+          "precip_clim_mm": 51.271,
+          "precip_anomaly_mm": -43.003,
+          "precip_pct_of_normal": 16.127,
+          "temp_2m_c": 27.852,
+          "temp_anomaly_c": 2.791
+        },
+        {
+          "lat": 2.5,
+          "lon": 36.5,
+          "precip_mm": 2.343,
+          "precip_clim_mm": 22.574,
+          "precip_anomaly_mm": -20.231,
+          "precip_pct_of_normal": 10.378,
+          "temp_2m_c": 28.588,
+          "temp_anomaly_c": 1.56
+        },
+        {
+          "lat": 2.5,
+          "lon": 37.5,
+          "precip_mm": 0.81,
+          "precip_clim_mm": 5.671,
+          "precip_anomaly_mm": -4.861,
+          "precip_pct_of_normal": 14.289,
+          "temp_2m_c": 27.706,
+          "temp_anomaly_c": 0.957
+        },
+        {
+          "lat": 2.5,
+          "lon": 38.5,
+          "precip_mm": 1.982,
+          "precip_clim_mm": 4.125,
+          "precip_anomaly_mm": -2.143,
+          "precip_pct_of_normal": 48.054,
+          "temp_2m_c": 27.147,
+          "temp_anomaly_c": 0.971
+        },
+        {
+          "lat": 2.5,
+          "lon": 39.5,
+          "precip_mm": 7.464,
+          "precip_clim_mm": 8.625,
+          "precip_anomaly_mm": -1.161,
+          "precip_pct_of_normal": 86.535,
+          "temp_2m_c": 26.634,
+          "temp_anomaly_c": 1.052
+        },
+        {
+          "lat": 2.5,
+          "lon": 40.5,
+          "precip_mm": 10.065,
+          "precip_clim_mm": 12.394,
+          "precip_anomaly_mm": -2.329,
+          "precip_pct_of_normal": 81.207,
+          "temp_2m_c": 26.46,
+          "temp_anomaly_c": 1.083
+        },
+        {
+          "lat": 2.5,
+          "lon": 41.5,
+          "precip_mm": 10.951,
+          "precip_clim_mm": 14.814,
+          "precip_anomaly_mm": -3.862,
+          "precip_pct_of_normal": 73.927,
+          "temp_2m_c": 26.888,
+          "temp_anomaly_c": 1.129
+        },
+        {
+          "lat": 3.5,
+          "lon": 34.5,
+          "precip_mm": 14.335,
+          "precip_clim_mm": 75.641,
+          "precip_anomaly_mm": -61.306,
+          "precip_pct_of_normal": 18.951,
+          "temp_2m_c": 25.461,
+          "temp_anomaly_c": 2.859
+        },
+        {
+          "lat": 3.5,
+          "lon": 35.5,
+          "precip_mm": 4.057,
+          "precip_clim_mm": 29.014,
+          "precip_anomaly_mm": -24.957,
+          "precip_pct_of_normal": 13.983,
+          "temp_2m_c": 28.598,
+          "temp_anomaly_c": 1.875
+        },
+        {
+          "lat": 3.5,
+          "lon": 36.5,
+          "precip_mm": 1.955,
+          "precip_clim_mm": 15.974,
+          "precip_anomaly_mm": -14.019,
+          "precip_pct_of_normal": 12.237,
+          "temp_2m_c": 28.81,
+          "temp_anomaly_c": 1.224
+        },
+        {
+          "lat": 3.5,
+          "lon": 37.5,
+          "precip_mm": 1.647,
+          "precip_clim_mm": 8.389,
+          "precip_anomaly_mm": -6.742,
+          "precip_pct_of_normal": 19.634,
+          "temp_2m_c": 27.409,
+          "temp_anomaly_c": 1.079
+        },
+        {
+          "lat": 3.5,
+          "lon": 38.5,
+          "precip_mm": 7.423,
+          "precip_clim_mm": 12.848,
+          "precip_anomaly_mm": -5.425,
+          "precip_pct_of_normal": 57.773,
+          "temp_2m_c": 24.348,
+          "temp_anomaly_c": 1.028
+        },
+        {
+          "lat": 3.5,
+          "lon": 39.5,
+          "precip_mm": 11.069,
+          "precip_clim_mm": 15.255,
+          "precip_anomaly_mm": -4.186,
+          "precip_pct_of_normal": 72.56,
+          "temp_2m_c": 23.972,
+          "temp_anomaly_c": 1.1
+        },
+        {
+          "lat": 3.5,
+          "lon": 40.5,
+          "precip_mm": 10.103,
+          "precip_clim_mm": 13.349,
+          "precip_anomaly_mm": -3.245,
+          "precip_pct_of_normal": 75.688,
+          "temp_2m_c": 25.318,
+          "temp_anomaly_c": 1.105
+        },
+        {
+          "lat": 3.5,
+          "lon": 41.5,
+          "precip_mm": 5.289,
+          "precip_clim_mm": 8.268,
+          "precip_anomaly_mm": -2.978,
+          "precip_pct_of_normal": 63.977,
+          "temp_2m_c": 27.073,
+          "temp_anomaly_c": 1.171
+        },
+        {
+          "lat": 4.5,
+          "lon": 34.5,
+          "precip_mm": 14.907,
+          "precip_clim_mm": 60.613,
+          "precip_anomaly_mm": -45.706,
+          "precip_pct_of_normal": 24.594,
+          "temp_2m_c": 28.747,
+          "temp_anomaly_c": 2.765
+        },
+        {
+          "lat": 4.5,
+          "lon": 35.5,
+          "precip_mm": 6.616,
+          "precip_clim_mm": 31.858,
+          "precip_anomaly_mm": -25.242,
+          "precip_pct_of_normal": 20.766,
+          "temp_2m_c": 28.912,
+          "temp_anomaly_c": 2.023
+        },
+        {
+          "lat": 4.5,
+          "lon": 36.5,
+          "precip_mm": 2.575,
+          "precip_clim_mm": 16.776,
+          "precip_anomaly_mm": -14.2,
+          "precip_pct_of_normal": 15.352,
+          "temp_2m_c": 28.697,
+          "temp_anomaly_c": 1.621
+        },
+        {
+          "lat": 4.5,
+          "lon": 37.5,
+          "precip_mm": 3.297,
+          "precip_clim_mm": 13.719,
+          "precip_anomaly_mm": -10.422,
+          "precip_pct_of_normal": 24.032,
+          "temp_2m_c": 25.024,
+          "temp_anomaly_c": 1.396
+        },
+        {
+          "lat": 4.5,
+          "lon": 38.5,
+          "precip_mm": 6.353,
+          "precip_clim_mm": 15.059,
+          "precip_anomaly_mm": -8.706,
+          "precip_pct_of_normal": 42.188,
+          "temp_2m_c": 21.313,
+          "temp_anomaly_c": 1.186
+        },
+        {
+          "lat": 4.5,
+          "lon": 39.5,
+          "precip_mm": 6.998,
+          "precip_clim_mm": 12.577,
+          "precip_anomaly_mm": -5.579,
+          "precip_pct_of_normal": 55.639,
+          "temp_2m_c": 23.258,
+          "temp_anomaly_c": 1.121
+        },
+        {
+          "lat": 4.5,
+          "lon": 40.5,
+          "precip_mm": 8.219,
+          "precip_clim_mm": 12.428,
+          "precip_anomaly_mm": -4.208,
+          "precip_pct_of_normal": 66.138,
+          "temp_2m_c": 24.103,
+          "temp_anomaly_c": 1.167
+        },
+        {
+          "lat": 4.5,
+          "lon": 41.5,
+          "precip_mm": 4.17,
+          "precip_clim_mm": 7.715,
+          "precip_anomaly_mm": -3.545,
+          "precip_pct_of_normal": 54.053,
+          "temp_2m_c": 27.74,
+          "temp_anomaly_c": 1.231
+        }
+      ]
+    },
+    {
+      "valid_year": 2026,
+      "valid_month": 10,
+      "cells": [
+        {
+          "lat": -2.5,
+          "lon": 34.5,
+          "precip_mm": 3.229,
+          "precip_clim_mm": 16.019,
+          "precip_anomaly_mm": -12.79,
+          "precip_pct_of_normal": 20.159,
+          "temp_2m_c": 25.164,
+          "temp_anomaly_c": 2.016
+        },
+        {
+          "lat": -2.5,
+          "lon": 35.5,
+          "precip_mm": 2.914,
+          "precip_clim_mm": 8.474,
+          "precip_anomaly_mm": -5.559,
+          "precip_pct_of_normal": 34.394,
+          "temp_2m_c": 22.206,
+          "temp_anomaly_c": 1.068
+        },
+        {
+          "lat": -2.5,
+          "lon": 36.5,
+          "precip_mm": 5.346,
+          "precip_clim_mm": 5.639,
+          "precip_anomaly_mm": -0.292,
+          "precip_pct_of_normal": 94.818,
+          "temp_2m_c": 23.977,
+          "temp_anomaly_c": 1.124
+        },
+        {
+          "lat": -2.5,
+          "lon": 37.5,
+          "precip_mm": 14.726,
+          "precip_clim_mm": 9.258,
+          "precip_anomaly_mm": 5.468,
+          "precip_pct_of_normal": 159.06,
+          "temp_2m_c": 22.127,
+          "temp_anomaly_c": 0.948
+        },
+        {
+          "lat": -2.5,
+          "lon": 38.5,
+          "precip_mm": 18.049,
+          "precip_clim_mm": 10.523,
+          "precip_anomaly_mm": 7.526,
+          "precip_pct_of_normal": 171.521,
+          "temp_2m_c": 25.202,
+          "temp_anomaly_c": 0.991
+        },
+        {
+          "lat": -2.5,
+          "lon": 39.5,
+          "precip_mm": 32.441,
+          "precip_clim_mm": 22.788,
+          "precip_anomaly_mm": 9.653,
+          "precip_pct_of_normal": 142.359,
+          "temp_2m_c": 26.16,
+          "temp_anomaly_c": 1.093
+        },
+        {
+          "lat": -2.5,
+          "lon": 40.5,
+          "precip_mm": 93.43,
+          "precip_clim_mm": 57.977,
+          "precip_anomaly_mm": 35.454,
+          "precip_pct_of_normal": 161.151,
+          "temp_2m_c": 25.933,
+          "temp_anomaly_c": 0.917
+        },
+        {
+          "lat": -2.5,
+          "lon": 41.5,
+          "precip_mm": 126.743,
+          "precip_clim_mm": 52.767,
+          "precip_anomaly_mm": 73.976,
+          "precip_pct_of_normal": 240.195,
+          "temp_2m_c": 26.04,
+          "temp_anomaly_c": 0.883
+        },
+        {
+          "lat": -1.5,
+          "lon": 34.5,
+          "precip_mm": 9.782,
+          "precip_clim_mm": 45.524,
+          "precip_anomaly_mm": -35.742,
+          "precip_pct_of_normal": 21.488,
+          "temp_2m_c": 24.621,
+          "temp_anomaly_c": 2.72
+        },
+        {
+          "lat": -1.5,
+          "lon": 35.5,
+          "precip_mm": 5.69,
+          "precip_clim_mm": 27.591,
+          "precip_anomaly_mm": -21.901,
+          "precip_pct_of_normal": 20.622,
+          "temp_2m_c": 21.065,
+          "temp_anomaly_c": 1.781
+        },
+        {
+          "lat": -1.5,
+          "lon": 36.5,
+          "precip_mm": 7.943,
+          "precip_clim_mm": 14.899,
+          "precip_anomaly_mm": -6.955,
+          "precip_pct_of_normal": 53.316,
+          "temp_2m_c": 22.021,
+          "temp_anomaly_c": 1.243
+        },
+        {
+          "lat": -1.5,
+          "lon": 37.5,
+          "precip_mm": 22.96,
+          "precip_clim_mm": 14.56,
+          "precip_anomaly_mm": 8.4,
+          "precip_pct_of_normal": 157.691,
+          "temp_2m_c": 21.719,
+          "temp_anomaly_c": 0.941
+        },
+        {
+          "lat": -1.5,
+          "lon": 38.5,
+          "precip_mm": 24.644,
+          "precip_clim_mm": 11.392,
+          "precip_anomaly_mm": 13.252,
+          "precip_pct_of_normal": 216.331,
+          "temp_2m_c": 25.249,
+          "temp_anomaly_c": 0.952
+        },
+        {
+          "lat": -1.5,
+          "lon": 39.5,
+          "precip_mm": 31.4,
+          "precip_clim_mm": 16.049,
+          "precip_anomaly_mm": 15.351,
+          "precip_pct_of_normal": 195.647,
+          "temp_2m_c": 26.831,
+          "temp_anomaly_c": 1.003
+        },
+        {
+          "lat": -1.5,
+          "lon": 40.5,
+          "precip_mm": 66.698,
+          "precip_clim_mm": 35.456,
+          "precip_anomaly_mm": 31.243,
+          "precip_pct_of_normal": 188.117,
+          "temp_2m_c": 26.733,
+          "temp_anomaly_c": 1.131
+        },
+        {
+          "lat": -1.5,
+          "lon": 41.5,
+          "precip_mm": 127.915,
+          "precip_clim_mm": 52.775,
+          "precip_anomaly_mm": 75.14,
+          "precip_pct_of_normal": 242.378,
+          "temp_2m_c": 26.308,
+          "temp_anomaly_c": 0.985
+        },
+        {
+          "lat": -0.5,
+          "lon": 34.5,
+          "precip_mm": 22.902,
+          "precip_clim_mm": 92.028,
+          "precip_anomaly_mm": -69.125,
+          "precip_pct_of_normal": 24.886,
+          "temp_2m_c": 24.168,
+          "temp_anomaly_c": 2.536
+        },
+        {
+          "lat": -0.5,
+          "lon": 35.5,
+          "precip_mm": 25.618,
+          "precip_clim_mm": 121.188,
+          "precip_anomaly_mm": -95.57,
+          "precip_pct_of_normal": 21.139,
+          "temp_2m_c": 18.937,
+          "temp_anomaly_c": 2.369
+        },
+        {
+          "lat": -0.5,
+          "lon": 36.5,
+          "precip_mm": 22.685,
+          "precip_clim_mm": 95.352,
+          "precip_anomaly_mm": -72.667,
+          "precip_pct_of_normal": 23.791,
+          "temp_2m_c": 16.552,
+          "temp_anomaly_c": 1.508
+        },
+        {
+          "lat": -0.5,
+          "lon": 37.5,
+          "precip_mm": 43.305,
+          "precip_clim_mm": 49.312,
+          "precip_anomaly_mm": -6.007,
+          "precip_pct_of_normal": 87.818,
+          "temp_2m_c": 20.385,
+          "temp_anomaly_c": 0.976
+        },
+        {
+          "lat": -0.5,
+          "lon": 38.5,
+          "precip_mm": 18.314,
+          "precip_clim_mm": 6.29,
+          "precip_anomaly_mm": 12.025,
+          "precip_pct_of_normal": 291.179,
+          "temp_2m_c": 26.537,
+          "temp_anomaly_c": 0.913
+        },
+        {
+          "lat": -0.5,
+          "lon": 39.5,
+          "precip_mm": 22.127,
+          "precip_clim_mm": 10.763,
+          "precip_anomaly_mm": 11.364,
+          "precip_pct_of_normal": 205.58,
+          "temp_2m_c": 27.221,
+          "temp_anomaly_c": 1.014
+        },
+        {
+          "lat": -0.5,
+          "lon": 40.5,
+          "precip_mm": 51.447,
+          "precip_clim_mm": 20.929,
+          "precip_anomaly_mm": 30.517,
+          "precip_pct_of_normal": 245.813,
+          "temp_2m_c": 27.254,
+          "temp_anomaly_c": 1.009
+        },
+        {
+          "lat": -0.5,
+          "lon": 41.5,
+          "precip_mm": 90.157,
+          "precip_clim_mm": 31.667,
+          "precip_anomaly_mm": 58.49,
+          "precip_pct_of_normal": 284.704,
+          "temp_2m_c": 27.307,
+          "temp_anomaly_c": 1.084
+        },
+        {
+          "lat": 0.5,
+          "lon": 34.5,
+          "precip_mm": 50.156,
+          "precip_clim_mm": 201.804,
+          "precip_anomaly_mm": -151.648,
+          "precip_pct_of_normal": 24.854,
+          "temp_2m_c": 22.33,
+          "temp_anomaly_c": 2.512
+        },
+        {
+          "lat": 0.5,
+          "lon": 35.5,
+          "precip_mm": 25.608,
+          "precip_clim_mm": 158.534,
+          "precip_anomaly_mm": -132.925,
+          "precip_pct_of_normal": 16.153,
+          "temp_2m_c": 21.045,
+          "temp_anomaly_c": 3.236
+        },
+        {
+          "lat": 0.5,
+          "lon": 36.5,
+          "precip_mm": 7.481,
+          "precip_clim_mm": 67.286,
+          "precip_anomaly_mm": -59.805,
+          "precip_pct_of_normal": 11.118,
+          "temp_2m_c": 22.852,
+          "temp_anomaly_c": 2.976
+        },
+        {
+          "lat": 0.5,
+          "lon": 37.5,
+          "precip_mm": 3.945,
+          "precip_clim_mm": 27.538,
+          "precip_anomaly_mm": -23.593,
+          "precip_pct_of_normal": 14.326,
+          "temp_2m_c": 23.579,
+          "temp_anomaly_c": 1.321
+        },
+        {
+          "lat": 0.5,
+          "lon": 38.5,
+          "precip_mm": 9.136,
+          "precip_clim_mm": 3.22,
+          "precip_anomaly_mm": 5.916,
+          "precip_pct_of_normal": 283.714,
+          "temp_2m_c": 27.553,
+          "temp_anomaly_c": 0.897
+        },
+        {
+          "lat": 0.5,
+          "lon": 39.5,
+          "precip_mm": 17.829,
+          "precip_clim_mm": 5.759,
+          "precip_anomaly_mm": 12.07,
+          "precip_pct_of_normal": 309.586,
+          "temp_2m_c": 28.105,
+          "temp_anomaly_c": 1.013
+        },
+        {
+          "lat": 0.5,
+          "lon": 40.5,
+          "precip_mm": 41.974,
+          "precip_clim_mm": 11.99,
+          "precip_anomaly_mm": 29.984,
+          "precip_pct_of_normal": 350.079,
+          "temp_2m_c": 28.328,
+          "temp_anomaly_c": 0.957
+        },
+        {
+          "lat": 0.5,
+          "lon": 41.5,
+          "precip_mm": 74.365,
+          "precip_clim_mm": 18.804,
+          "precip_anomaly_mm": 55.561,
+          "precip_pct_of_normal": 395.472,
+          "temp_2m_c": 28.303,
+          "temp_anomaly_c": 0.942
+        },
+        {
+          "lat": 1.5,
+          "lon": 34.5,
+          "precip_mm": 28.373,
+          "precip_clim_mm": 169.003,
+          "precip_anomaly_mm": -140.63,
+          "precip_pct_of_normal": 16.788,
+          "temp_2m_c": 23.788,
+          "temp_anomaly_c": 3.796
+        },
+        {
+          "lat": 1.5,
+          "lon": 35.5,
+          "precip_mm": 11.538,
+          "precip_clim_mm": 108.879,
+          "precip_anomaly_mm": -97.341,
+          "precip_pct_of_normal": 10.597,
+          "temp_2m_c": 25.14,
+          "temp_anomaly_c": 3.561
+        },
+        {
+          "lat": 1.5,
+          "lon": 36.5,
+          "precip_mm": 2.895,
+          "precip_clim_mm": 34.21,
+          "precip_anomaly_mm": -31.315,
+          "precip_pct_of_normal": 8.461,
+          "temp_2m_c": 27.182,
+          "temp_anomaly_c": 2.32
+        },
+        {
+          "lat": 1.5,
+          "lon": 37.5,
+          "precip_mm": 1.664,
+          "precip_clim_mm": 7.755,
+          "precip_anomaly_mm": -6.091,
+          "precip_pct_of_normal": 21.454,
+          "temp_2m_c": 26.784,
+          "temp_anomaly_c": 1.005
+        },
+        {
+          "lat": 1.5,
+          "lon": 38.5,
+          "precip_mm": 7.857,
+          "precip_clim_mm": 1.885,
+          "precip_anomaly_mm": 5.971,
+          "precip_pct_of_normal": 416.692,
+          "temp_2m_c": 29.04,
+          "temp_anomaly_c": 0.95
+        },
+        {
+          "lat": 1.5,
+          "lon": 39.5,
+          "precip_mm": 23.863,
+          "precip_clim_mm": 5.811,
+          "precip_anomaly_mm": 18.052,
+          "precip_pct_of_normal": 410.645,
+          "temp_2m_c": 28.462,
+          "temp_anomaly_c": 1.041
+        },
+        {
+          "lat": 1.5,
+          "lon": 40.5,
+          "precip_mm": 42.055,
+          "precip_clim_mm": 10.959,
+          "precip_anomaly_mm": 31.096,
+          "precip_pct_of_normal": 383.76,
+          "temp_2m_c": 28.491,
+          "temp_anomaly_c": 0.963
+        },
+        {
+          "lat": 1.5,
+          "lon": 41.5,
+          "precip_mm": 63.491,
+          "precip_clim_mm": 15.128,
+          "precip_anomaly_mm": 48.363,
+          "precip_pct_of_normal": 419.685,
+          "temp_2m_c": 28.482,
+          "temp_anomaly_c": 0.877
+        },
+        {
+          "lat": 2.5,
+          "lon": 34.5,
+          "precip_mm": 7.776,
+          "precip_clim_mm": 74.13,
+          "precip_anomaly_mm": -66.353,
+          "precip_pct_of_normal": 10.49,
+          "temp_2m_c": 26.402,
+          "temp_anomaly_c": 3.954
+        },
+        {
+          "lat": 2.5,
+          "lon": 35.5,
+          "precip_mm": 1.788,
+          "precip_clim_mm": 27.595,
+          "precip_anomaly_mm": -25.806,
+          "precip_pct_of_normal": 6.481,
+          "temp_2m_c": 29.25,
+          "temp_anomaly_c": 2.32
+        },
+        {
+          "lat": 2.5,
+          "lon": 36.5,
+          "precip_mm": 0.591,
+          "precip_clim_mm": 11.426,
+          "precip_anomaly_mm": -10.835,
+          "precip_pct_of_normal": 5.175,
+          "temp_2m_c": 29.549,
+          "temp_anomaly_c": 1.214
+        },
+        {
+          "lat": 2.5,
+          "lon": 37.5,
+          "precip_mm": 0.857,
+          "precip_clim_mm": 2.831,
+          "precip_anomaly_mm": -1.975,
+          "precip_pct_of_normal": 30.262,
+          "temp_2m_c": 28.574,
+          "temp_anomaly_c": 0.881
+        },
+        {
+          "lat": 2.5,
+          "lon": 38.5,
+          "precip_mm": 17.473,
+          "precip_clim_mm": 4.376,
+          "precip_anomaly_mm": 13.097,
+          "precip_pct_of_normal": 399.288,
+          "temp_2m_c": 27.943,
+          "temp_anomaly_c": 0.899
+        },
+        {
+          "lat": 2.5,
+          "lon": 39.5,
+          "precip_mm": 32.306,
+          "precip_clim_mm": 9.388,
+          "precip_anomaly_mm": 22.918,
+          "precip_pct_of_normal": 344.112,
+          "temp_2m_c": 27.504,
+          "temp_anomaly_c": 0.991
+        },
+        {
+          "lat": 2.5,
+          "lon": 40.5,
+          "precip_mm": 46.045,
+          "precip_clim_mm": 11.49,
+          "precip_anomaly_mm": 34.556,
+          "precip_pct_of_normal": 400.75,
+          "temp_2m_c": 27.267,
+          "temp_anomaly_c": 0.909
+        },
+        {
+          "lat": 2.5,
+          "lon": 41.5,
+          "precip_mm": 57.808,
+          "precip_clim_mm": 13.243,
+          "precip_anomaly_mm": 44.565,
+          "precip_pct_of_normal": 436.528,
+          "temp_2m_c": 27.528,
+          "temp_anomaly_c": 0.82
+        },
+        {
+          "lat": 3.5,
+          "lon": 34.5,
+          "precip_mm": 4.351,
+          "precip_clim_mm": 44.647,
+          "precip_anomaly_mm": -40.296,
+          "precip_pct_of_normal": 9.746,
+          "temp_2m_c": 26.988,
+          "temp_anomaly_c": 2.819
+        },
+        {
+          "lat": 3.5,
+          "lon": 35.5,
+          "precip_mm": 0.873,
+          "precip_clim_mm": 16.21,
+          "precip_anomaly_mm": -15.337,
+          "precip_pct_of_normal": 5.386,
+          "temp_2m_c": 29.767,
+          "temp_anomaly_c": 1.588
+        },
+        {
+          "lat": 3.5,
+          "lon": 36.5,
+          "precip_mm": 0.518,
+          "precip_clim_mm": 8.825,
+          "precip_anomaly_mm": -8.308,
+          "precip_pct_of_normal": 5.868,
+          "temp_2m_c": 29.791,
+          "temp_anomaly_c": 1.031
+        },
+        {
+          "lat": 3.5,
+          "lon": 37.5,
+          "precip_mm": 1.82,
+          "precip_clim_mm": 4.474,
+          "precip_anomaly_mm": -2.654,
+          "precip_pct_of_normal": 40.679,
+          "temp_2m_c": 28.248,
+          "temp_anomaly_c": 0.885
+        },
+        {
+          "lat": 3.5,
+          "lon": 38.5,
+          "precip_mm": 50.124,
+          "precip_clim_mm": 15.132,
+          "precip_anomaly_mm": 34.991,
+          "precip_pct_of_normal": 331.234,
+          "temp_2m_c": 25.05,
+          "temp_anomaly_c": 0.771
+        },
+        {
+          "lat": 3.5,
+          "lon": 39.5,
+          "precip_mm": 70.488,
+          "precip_clim_mm": 16.896,
+          "precip_anomaly_mm": 53.592,
+          "precip_pct_of_normal": 417.181,
+          "temp_2m_c": 24.8,
+          "temp_anomaly_c": 0.843
+        },
+        {
+          "lat": 3.5,
+          "lon": 40.5,
+          "precip_mm": 57.888,
+          "precip_clim_mm": 12.513,
+          "precip_anomaly_mm": 45.375,
+          "precip_pct_of_normal": 462.626,
+          "temp_2m_c": 26.209,
+          "temp_anomaly_c": 0.849
+        },
+        {
+          "lat": 3.5,
+          "lon": 41.5,
+          "precip_mm": 41.431,
+          "precip_clim_mm": 6.668,
+          "precip_anomaly_mm": 34.763,
+          "precip_pct_of_normal": 621.329,
+          "temp_2m_c": 27.903,
+          "temp_anomaly_c": 0.866
+        },
+        {
+          "lat": 4.5,
+          "lon": 34.5,
+          "precip_mm": 4.329,
+          "precip_clim_mm": 44.485,
+          "precip_anomaly_mm": -40.156,
+          "precip_pct_of_normal": 9.732,
+          "temp_2m_c": 30.504,
+          "temp_anomaly_c": 3.085
+        },
+        {
+          "lat": 4.5,
+          "lon": 35.5,
+          "precip_mm": 1.625,
+          "precip_clim_mm": 20.513,
+          "precip_anomaly_mm": -18.888,
+          "precip_pct_of_normal": 7.922,
+          "temp_2m_c": 30.261,
+          "temp_anomaly_c": 1.928
+        },
+        {
+          "lat": 4.5,
+          "lon": 36.5,
+          "precip_mm": 1.428,
+          "precip_clim_mm": 11.274,
+          "precip_anomaly_mm": -9.846,
+          "precip_pct_of_normal": 12.669,
+          "temp_2m_c": 29.804,
+          "temp_anomaly_c": 1.396
+        },
+        {
+          "lat": 4.5,
+          "lon": 37.5,
+          "precip_mm": 6.137,
+          "precip_clim_mm": 12.074,
+          "precip_anomaly_mm": -5.937,
+          "precip_pct_of_normal": 50.832,
+          "temp_2m_c": 26.125,
+          "temp_anomaly_c": 1.227
+        },
+        {
+          "lat": 4.5,
+          "lon": 38.5,
+          "precip_mm": 29.177,
+          "precip_clim_mm": 17.697,
+          "precip_anomaly_mm": 11.48,
+          "precip_pct_of_normal": 164.872,
+          "temp_2m_c": 22.281,
+          "temp_anomaly_c": 0.961
+        },
+        {
+          "lat": 4.5,
+          "lon": 39.5,
+          "precip_mm": 52.077,
+          "precip_clim_mm": 15.049,
+          "precip_anomaly_mm": 37.029,
+          "precip_pct_of_normal": 346.059,
+          "temp_2m_c": 24.164,
+          "temp_anomaly_c": 0.803
+        },
+        {
+          "lat": 4.5,
+          "lon": 40.5,
+          "precip_mm": 63.527,
+          "precip_clim_mm": 13.563,
+          "precip_anomaly_mm": 49.964,
+          "precip_pct_of_normal": 468.394,
+          "temp_2m_c": 25.052,
+          "temp_anomaly_c": 0.812
+        },
+        {
+          "lat": 4.5,
+          "lon": 41.5,
+          "precip_mm": 50.243,
+          "precip_clim_mm": 7.562,
+          "precip_anomaly_mm": 42.681,
+          "precip_pct_of_normal": 664.429,
+          "temp_2m_c": 28.583,
+          "temp_anomaly_c": 0.822
+        }
+      ]
+    },
+    {
+      "valid_year": 2026,
+      "valid_month": 11,
+      "cells": [
+        {
+          "lat": -2.5,
+          "lon": 34.5,
+          "precip_mm": 114.19,
+          "precip_clim_mm": 54.434,
+          "precip_anomaly_mm": 59.756,
+          "precip_pct_of_normal": 209.778,
+          "temp_2m_c": 24.483,
+          "temp_anomaly_c": 1.376
+        },
+        {
+          "lat": -2.5,
+          "lon": 35.5,
+          "precip_mm": 105.389,
+          "precip_clim_mm": 35.369,
+          "precip_anomaly_mm": 70.02,
+          "precip_pct_of_normal": 297.972,
+          "temp_2m_c": 22.26,
+          "temp_anomaly_c": 0.752
+        },
+        {
+          "lat": -2.5,
+          "lon": 36.5,
+          "precip_mm": 139.413,
+          "precip_clim_mm": 38.848,
+          "precip_anomaly_mm": 100.565,
+          "precip_pct_of_normal": 358.867,
+          "temp_2m_c": 24.017,
+          "temp_anomaly_c": 0.641
+        },
+        {
+          "lat": -2.5,
+          "lon": 37.5,
+          "precip_mm": 212.531,
+          "precip_clim_mm": 56.536,
+          "precip_anomaly_mm": 155.995,
+          "precip_pct_of_normal": 375.922,
+          "temp_2m_c": 22.125,
+          "temp_anomaly_c": 0.526
+        },
+        {
+          "lat": -2.5,
+          "lon": 38.5,
+          "precip_mm": 223.846,
+          "precip_clim_mm": 50.883,
+          "precip_anomaly_mm": 172.963,
+          "precip_pct_of_normal": 439.926,
+          "temp_2m_c": 25.282,
+          "temp_anomaly_c": 0.459
+        },
+        {
+          "lat": -2.5,
+          "lon": 39.5,
+          "precip_mm": 280.92,
+          "precip_clim_mm": 60.408,
+          "precip_anomaly_mm": 220.512,
+          "precip_pct_of_normal": 465.036,
+          "temp_2m_c": 26.337,
+          "temp_anomaly_c": 0.524
+        },
+        {
+          "lat": -2.5,
+          "lon": 40.5,
+          "precip_mm": 480.996,
+          "precip_clim_mm": 104.205,
+          "precip_anomaly_mm": 376.791,
+          "precip_pct_of_normal": 461.585,
+          "temp_2m_c": 26.54,
+          "temp_anomaly_c": 0.803
+        },
+        {
+          "lat": -2.5,
+          "lon": 41.5,
+          "precip_mm": 525.33,
+          "precip_clim_mm": 103.95,
+          "precip_anomaly_mm": 421.38,
+          "precip_pct_of_normal": 505.367,
+          "temp_2m_c": 26.878,
+          "temp_anomaly_c": 0.978
+        },
+        {
+          "lat": -1.5,
+          "lon": 34.5,
+          "precip_mm": 158.219,
+          "precip_clim_mm": 94.262,
+          "precip_anomaly_mm": 63.957,
+          "precip_pct_of_normal": 167.851,
+          "temp_2m_c": 23.499,
+          "temp_anomaly_c": 1.746
+        },
+        {
+          "lat": -1.5,
+          "lon": 35.5,
+          "precip_mm": 117.271,
+          "precip_clim_mm": 57.089,
+          "precip_anomaly_mm": 60.182,
+          "precip_pct_of_normal": 205.418,
+          "temp_2m_c": 20.652,
+          "temp_anomaly_c": 1.126
+        },
+        {
+          "lat": -1.5,
+          "lon": 36.5,
+          "precip_mm": 162.513,
+          "precip_clim_mm": 53.626,
+          "precip_anomaly_mm": 108.888,
+          "precip_pct_of_normal": 303.052,
+          "temp_2m_c": 21.814,
+          "temp_anomaly_c": 0.724
+        },
+        {
+          "lat": -1.5,
+          "lon": 37.5,
+          "precip_mm": 280.784,
+          "precip_clim_mm": 84.069,
+          "precip_anomaly_mm": 196.715,
+          "precip_pct_of_normal": 333.991,
+          "temp_2m_c": 21.506,
+          "temp_anomaly_c": 0.476
+        },
+        {
+          "lat": -1.5,
+          "lon": 38.5,
+          "precip_mm": 269.234,
+          "precip_clim_mm": 64.902,
+          "precip_anomaly_mm": 204.331,
+          "precip_pct_of_normal": 414.83,
+          "temp_2m_c": 25.038,
+          "temp_anomaly_c": 0.277
+        },
+        {
+          "lat": -1.5,
+          "lon": 39.5,
+          "precip_mm": 235.886,
+          "precip_clim_mm": 47.209,
+          "precip_anomaly_mm": 188.677,
+          "precip_pct_of_normal": 499.663,
+          "temp_2m_c": 26.78,
+          "temp_anomaly_c": 0.213
+        },
+        {
+          "lat": -1.5,
+          "lon": 40.5,
+          "precip_mm": 460.782,
+          "precip_clim_mm": 98.646,
+          "precip_anomaly_mm": 362.136,
+          "precip_pct_of_normal": 467.105,
+          "temp_2m_c": 26.438,
+          "temp_anomaly_c": 0.302
+        },
+        {
+          "lat": -1.5,
+          "lon": 41.5,
+          "precip_mm": 566.292,
+          "precip_clim_mm": 110.776,
+          "precip_anomaly_mm": 455.515,
+          "precip_pct_of_normal": 511.203,
+          "temp_2m_c": 26.602,
+          "temp_anomaly_c": 0.661
+        },
+        {
+          "lat": -0.5,
+          "lon": 34.5,
+          "precip_mm": 267.037,
+          "precip_clim_mm": 161.692,
+          "precip_anomaly_mm": 105.345,
+          "precip_pct_of_normal": 165.152,
+          "temp_2m_c": 23.14,
+          "temp_anomaly_c": 1.556
+        },
+        {
+          "lat": -0.5,
+          "lon": 35.5,
+          "precip_mm": 277.33,
+          "precip_clim_mm": 160.214,
+          "precip_anomaly_mm": 117.116,
+          "precip_pct_of_normal": 173.1,
+          "temp_2m_c": 18.317,
+          "temp_anomaly_c": 1.505
+        },
+        {
+          "lat": -0.5,
+          "lon": 36.5,
+          "precip_mm": 256.224,
+          "precip_clim_mm": 129.096,
+          "precip_anomaly_mm": 127.128,
+          "precip_pct_of_normal": 198.475,
+          "temp_2m_c": 16.591,
+          "temp_anomaly_c": 1.237
+        },
+        {
+          "lat": -0.5,
+          "lon": 37.5,
+          "precip_mm": 406.806,
+          "precip_clim_mm": 159.829,
+          "precip_anomaly_mm": 246.977,
+          "precip_pct_of_normal": 254.525,
+          "temp_2m_c": 20.071,
+          "temp_anomaly_c": 0.586
+        },
+        {
+          "lat": -0.5,
+          "lon": 38.5,
+          "precip_mm": 236.189,
+          "precip_clim_mm": 58.137,
+          "precip_anomaly_mm": 178.052,
+          "precip_pct_of_normal": 406.264,
+          "temp_2m_c": 26.075,
+          "temp_anomaly_c": 0.153
+        },
+        {
+          "lat": -0.5,
+          "lon": 39.5,
+          "precip_mm": 185.98,
+          "precip_clim_mm": 36.416,
+          "precip_anomaly_mm": 149.564,
+          "precip_pct_of_normal": 510.711,
+          "temp_2m_c": 27.05,
+          "temp_anomaly_c": 0.139
+        },
+        {
+          "lat": -0.5,
+          "lon": 40.5,
+          "precip_mm": 323.934,
+          "precip_clim_mm": 66.465,
+          "precip_anomaly_mm": 257.47,
+          "precip_pct_of_normal": 487.377,
+          "temp_2m_c": 26.748,
+          "temp_anomaly_c": -0.054
+        },
+        {
+          "lat": -0.5,
+          "lon": 41.5,
+          "precip_mm": 519.584,
+          "precip_clim_mm": 110.781,
+          "precip_anomaly_mm": 408.803,
+          "precip_pct_of_normal": 469.02,
+          "temp_2m_c": 26.704,
+          "temp_anomaly_c": 0.169
+        },
+        {
+          "lat": 0.5,
+          "lon": 34.5,
+          "precip_mm": 376.081,
+          "precip_clim_mm": 239.919,
+          "precip_anomaly_mm": 136.162,
+          "precip_pct_of_normal": 156.753,
+          "temp_2m_c": 21.581,
+          "temp_anomaly_c": 1.535
+        },
+        {
+          "lat": 0.5,
+          "lon": 35.5,
+          "precip_mm": 286.418,
+          "precip_clim_mm": 125.094,
+          "precip_anomaly_mm": 161.324,
+          "precip_pct_of_normal": 228.963,
+          "temp_2m_c": 20.284,
+          "temp_anomaly_c": 1.782
+        },
+        {
+          "lat": 0.5,
+          "lon": 36.5,
+          "precip_mm": 211.067,
+          "precip_clim_mm": 71.581,
+          "precip_anomaly_mm": 139.485,
+          "precip_pct_of_normal": 294.863,
+          "temp_2m_c": 21.767,
+          "temp_anomaly_c": 1.375
+        },
+        {
+          "lat": 0.5,
+          "lon": 37.5,
+          "precip_mm": 209.855,
+          "precip_clim_mm": 65.187,
+          "precip_anomaly_mm": 144.669,
+          "precip_pct_of_normal": 321.931,
+          "temp_2m_c": 22.789,
+          "temp_anomaly_c": 0.587
+        },
+        {
+          "lat": 0.5,
+          "lon": 38.5,
+          "precip_mm": 213.629,
+          "precip_clim_mm": 46.725,
+          "precip_anomaly_mm": 166.904,
+          "precip_pct_of_normal": 457.203,
+          "temp_2m_c": 26.821,
+          "temp_anomaly_c": 0.059
+        },
+        {
+          "lat": 0.5,
+          "lon": 39.5,
+          "precip_mm": 177.302,
+          "precip_clim_mm": 33.792,
+          "precip_anomaly_mm": 143.509,
+          "precip_pct_of_normal": 524.681,
+          "temp_2m_c": 27.727,
+          "temp_anomaly_c": 0.101
+        },
+        {
+          "lat": 0.5,
+          "lon": 40.5,
+          "precip_mm": 264.213,
+          "precip_clim_mm": 48.713,
+          "precip_anomaly_mm": 215.5,
+          "precip_pct_of_normal": 542.382,
+          "temp_2m_c": 27.5,
+          "temp_anomaly_c": -0.225
+        },
+        {
+          "lat": 0.5,
+          "lon": 41.5,
+          "precip_mm": 394.676,
+          "precip_clim_mm": 77.328,
+          "precip_anomaly_mm": 317.348,
+          "precip_pct_of_normal": 510.394,
+          "temp_2m_c": 27.33,
+          "temp_anomaly_c": -0.168
+        },
+        {
+          "lat": 1.5,
+          "lon": 34.5,
+          "precip_mm": 310.986,
+          "precip_clim_mm": 167.405,
+          "precip_anomaly_mm": 143.58,
+          "precip_pct_of_normal": 185.768,
+          "temp_2m_c": 22.633,
+          "temp_anomaly_c": 2.021
+        },
+        {
+          "lat": 1.5,
+          "lon": 35.5,
+          "precip_mm": 261.198,
+          "precip_clim_mm": 85.904,
+          "precip_anomaly_mm": 175.293,
+          "precip_pct_of_normal": 304.056,
+          "temp_2m_c": 23.913,
+          "temp_anomaly_c": 1.524
+        },
+        {
+          "lat": 1.5,
+          "lon": 36.5,
+          "precip_mm": 165.708,
+          "precip_clim_mm": 45.371,
+          "precip_anomaly_mm": 120.337,
+          "precip_pct_of_normal": 365.231,
+          "temp_2m_c": 26.061,
+          "temp_anomaly_c": 0.874
+        },
+        {
+          "lat": 1.5,
+          "lon": 37.5,
+          "precip_mm": 179.057,
+          "precip_clim_mm": 42.307,
+          "precip_anomaly_mm": 136.75,
+          "precip_pct_of_normal": 423.232,
+          "temp_2m_c": 25.742,
+          "temp_anomaly_c": 0.183
+        },
+        {
+          "lat": 1.5,
+          "lon": 38.5,
+          "precip_mm": 179.576,
+          "precip_clim_mm": 37.9,
+          "precip_anomaly_mm": 141.676,
+          "precip_pct_of_normal": 473.821,
+          "temp_2m_c": 28.125,
+          "temp_anomaly_c": 0.037
+        },
+        {
+          "lat": 1.5,
+          "lon": 39.5,
+          "precip_mm": 210.342,
+          "precip_clim_mm": 40.969,
+          "precip_anomaly_mm": 169.374,
+          "precip_pct_of_normal": 513.42,
+          "temp_2m_c": 27.591,
+          "temp_anomaly_c": -0.035
+        },
+        {
+          "lat": 1.5,
+          "lon": 40.5,
+          "precip_mm": 278.495,
+          "precip_clim_mm": 53.93,
+          "precip_anomaly_mm": 224.565,
+          "precip_pct_of_normal": 516.401,
+          "temp_2m_c": 27.322,
+          "temp_anomaly_c": -0.241
+        },
+        {
+          "lat": 1.5,
+          "lon": 41.5,
+          "precip_mm": 363.832,
+          "precip_clim_mm": 67.164,
+          "precip_anomaly_mm": 296.668,
+          "precip_pct_of_normal": 541.705,
+          "temp_2m_c": 27.308,
+          "temp_anomaly_c": -0.27
+        },
+        {
+          "lat": 2.5,
+          "lon": 34.5,
+          "precip_mm": 130.254,
+          "precip_clim_mm": 61.938,
+          "precip_anomaly_mm": 68.316,
+          "precip_pct_of_normal": 210.298,
+          "temp_2m_c": 25.196,
+          "temp_anomaly_c": 1.893
+        },
+        {
+          "lat": 2.5,
+          "lon": 35.5,
+          "precip_mm": 132.871,
+          "precip_clim_mm": 38.91,
+          "precip_anomaly_mm": 93.961,
+          "precip_pct_of_normal": 341.483,
+          "temp_2m_c": 28.154,
+          "temp_anomaly_c": 0.822
+        },
+        {
+          "lat": 2.5,
+          "lon": 36.5,
+          "precip_mm": 61.522,
+          "precip_clim_mm": 18.702,
+          "precip_anomaly_mm": 42.82,
+          "precip_pct_of_normal": 328.958,
+          "temp_2m_c": 28.922,
+          "temp_anomaly_c": 0.471
+        },
+        {
+          "lat": 2.5,
+          "lon": 37.5,
+          "precip_mm": 87.769,
+          "precip_clim_mm": 19.641,
+          "precip_anomaly_mm": 68.128,
+          "precip_pct_of_normal": 446.864,
+          "temp_2m_c": 27.614,
+          "temp_anomaly_c": 0.083
+        },
+        {
+          "lat": 2.5,
+          "lon": 38.5,
+          "precip_mm": 228.14,
+          "precip_clim_mm": 49.375,
+          "precip_anomaly_mm": 178.765,
+          "precip_pct_of_normal": 462.059,
+          "temp_2m_c": 26.428,
+          "temp_anomaly_c": -0.155
+        },
+        {
+          "lat": 2.5,
+          "lon": 39.5,
+          "precip_mm": 306.008,
+          "precip_clim_mm": 65.272,
+          "precip_anomaly_mm": 240.736,
+          "precip_pct_of_normal": 468.823,
+          "temp_2m_c": 26.105,
+          "temp_anomaly_c": -0.144
+        },
+        {
+          "lat": 2.5,
+          "lon": 40.5,
+          "precip_mm": 347.684,
+          "precip_clim_mm": 71.122,
+          "precip_anomaly_mm": 276.562,
+          "precip_pct_of_normal": 488.858,
+          "temp_2m_c": 25.818,
+          "temp_anomaly_c": -0.237
+        },
+        {
+          "lat": 2.5,
+          "lon": 41.5,
+          "precip_mm": 416.222,
+          "precip_clim_mm": 79.581,
+          "precip_anomaly_mm": 336.642,
+          "precip_pct_of_normal": 523.019,
+          "temp_2m_c": 26.177,
+          "temp_anomaly_c": -0.242
+        },
+        {
+          "lat": 3.5,
+          "lon": 34.5,
+          "precip_mm": 108.933,
+          "precip_clim_mm": 48.732,
+          "precip_anomaly_mm": 60.201,
+          "precip_pct_of_normal": 223.536,
+          "temp_2m_c": 25.921,
+          "temp_anomaly_c": 1.288
+        },
+        {
+          "lat": 3.5,
+          "lon": 35.5,
+          "precip_mm": 111.179,
+          "precip_clim_mm": 34.116,
+          "precip_anomaly_mm": 77.063,
+          "precip_pct_of_normal": 325.884,
+          "temp_2m_c": 29.061,
+          "temp_anomaly_c": 0.681
+        },
+        {
+          "lat": 3.5,
+          "lon": 36.5,
+          "precip_mm": 60.207,
+          "precip_clim_mm": 19.727,
+          "precip_anomaly_mm": 40.48,
+          "precip_pct_of_normal": 305.197,
+          "temp_2m_c": 29.211,
+          "temp_anomaly_c": 0.376
+        },
+        {
+          "lat": 3.5,
+          "lon": 37.5,
+          "precip_mm": 88.268,
+          "precip_clim_mm": 23.928,
+          "precip_anomaly_mm": 64.34,
+          "precip_pct_of_normal": 368.89,
+          "temp_2m_c": 27.151,
+          "temp_anomaly_c": 0.133
+        },
+        {
+          "lat": 3.5,
+          "lon": 38.5,
+          "precip_mm": 274.936,
+          "precip_clim_mm": 79.138,
+          "precip_anomaly_mm": 195.799,
+          "precip_pct_of_normal": 347.416,
+          "temp_2m_c": 23.677,
+          "temp_anomaly_c": 0.105
+        },
+        {
+          "lat": 3.5,
+          "lon": 39.5,
+          "precip_mm": 332.708,
+          "precip_clim_mm": 94.911,
+          "precip_anomaly_mm": 237.797,
+          "precip_pct_of_normal": 350.549,
+          "temp_2m_c": 23.315,
+          "temp_anomaly_c": 0.092
+        },
+        {
+          "lat": 3.5,
+          "lon": 40.5,
+          "precip_mm": 356.547,
+          "precip_clim_mm": 83.666,
+          "precip_anomaly_mm": 272.881,
+          "precip_pct_of_normal": 426.157,
+          "temp_2m_c": 24.545,
+          "temp_anomaly_c": -0.088
+        },
+        {
+          "lat": 3.5,
+          "lon": 41.5,
+          "precip_mm": 372.168,
+          "precip_clim_mm": 78.314,
+          "precip_anomaly_mm": 293.854,
+          "precip_pct_of_normal": 475.227,
+          "temp_2m_c": 26.063,
+          "temp_anomaly_c": -0.23
+        },
+        {
+          "lat": 4.5,
+          "lon": 34.5,
+          "precip_mm": 103.082,
+          "precip_clim_mm": 52.31,
+          "precip_anomaly_mm": 50.772,
+          "precip_pct_of_normal": 197.059,
+          "temp_2m_c": 29.333,
+          "temp_anomaly_c": 1.425
+        },
+        {
+          "lat": 4.5,
+          "lon": 35.5,
+          "precip_mm": 130.02,
+          "precip_clim_mm": 44.665,
+          "precip_anomaly_mm": 85.355,
+          "precip_pct_of_normal": 291.102,
+          "temp_2m_c": 29.165,
+          "temp_anomaly_c": 0.836
+        },
+        {
+          "lat": 4.5,
+          "lon": 36.5,
+          "precip_mm": 139.859,
+          "precip_clim_mm": 43.494,
+          "precip_anomaly_mm": 96.365,
+          "precip_pct_of_normal": 321.56,
+          "temp_2m_c": 28.684,
+          "temp_anomaly_c": 0.616
+        },
+        {
+          "lat": 4.5,
+          "lon": 37.5,
+          "precip_mm": 146.533,
+          "precip_clim_mm": 53.296,
+          "precip_anomaly_mm": 93.236,
+          "precip_pct_of_normal": 274.939,
+          "temp_2m_c": 25.116,
+          "temp_anomaly_c": 0.684
+        },
+        {
+          "lat": 4.5,
+          "lon": 38.5,
+          "precip_mm": 184.777,
+          "precip_clim_mm": 77.163,
+          "precip_anomaly_mm": 107.614,
+          "precip_pct_of_normal": 239.464,
+          "temp_2m_c": 21.176,
+          "temp_anomaly_c": 0.59
+        },
+        {
+          "lat": 4.5,
+          "lon": 39.5,
+          "precip_mm": 250.393,
+          "precip_clim_mm": 88.063,
+          "precip_anomaly_mm": 162.331,
+          "precip_pct_of_normal": 284.335,
+          "temp_2m_c": 22.682,
+          "temp_anomaly_c": 0.368
+        },
+        {
+          "lat": 4.5,
+          "lon": 40.5,
+          "precip_mm": 300.161,
+          "precip_clim_mm": 92.431,
+          "precip_anomaly_mm": 207.73,
+          "precip_pct_of_normal": 324.74,
+          "temp_2m_c": 23.272,
+          "temp_anomaly_c": 0.209
+        },
+        {
+          "lat": 4.5,
+          "lon": 41.5,
+          "precip_mm": 323.258,
+          "precip_clim_mm": 79.556,
+          "precip_anomaly_mm": 243.702,
+          "precip_pct_of_normal": 406.328,
+          "temp_2m_c": 26.098,
+          "temp_anomaly_c": -0.198
+        }
+      ]
+    }
+  ]
+}

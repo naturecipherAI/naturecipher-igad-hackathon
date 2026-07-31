@@ -383,7 +383,7 @@ def bias_correct_grid(forecast_grid: pd.DataFrame, climatology_grid: pd.DataFram
         col, clim_col = var, var + "_clim"
         if col in df.columns and clim_col in df.columns:
             factors = [
-                1.0 if pd.isna(c) else _bias_factor(float(v), float(c))
+                1.0 if pd.isna(c) else _anomaly_ratio(float(v), float(c))
                 for v, c in zip(df[col], df[clim_col])
             ]
             df[col] = df[col] * pd.Series(factors, index=df.index)
