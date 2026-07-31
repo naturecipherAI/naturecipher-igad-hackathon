@@ -14,10 +14,14 @@ by Nature Cipher · IGAD Hackathon 2026
 
 </div>
 
-**[Open the live dashboard →](https://naturecipher-drought.pages.dev)**
+<table>
+<tr>
+<td width="50%"><img src="docs/assets/demo-months.gif" alt="Scrubbing September to November"><br><sub><b>Scrub the month.</b> October turns ASAL North red — four counties, three months ahead, from a weather forecast alone.</sub></td>
+<td width="50%"><img src="docs/assets/demo-threshold.gif" alt="Raising the decision threshold"><br><sub><b>Move the threshold.</b> At 0.35 the signal is gone. The decision changed; the forecast did not.</sub></td>
+</tr>
+</table>
 
-Scrub the forecast month · move the decision threshold and watch the call change ·
-hover any county · ask a question · generate a PDF bulletin.
+**[Open the live dashboard →](https://naturecipher-drought.pages.dev)**
 
 
 
